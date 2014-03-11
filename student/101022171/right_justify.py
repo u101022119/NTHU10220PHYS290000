@@ -11,7 +11,7 @@ def right_justify(s):
     print (s)
 
 while True:
-    x = raw_input("Input a string, end with 0: ")
+    x = raw_input("Input a string, ending with 0: ")
     if x == '0':
         break
     right_justify(x)
