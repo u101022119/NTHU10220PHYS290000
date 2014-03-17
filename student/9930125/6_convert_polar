@@ -1,0 +1,6 @@
+import math
+x, y = float(raw_input('ENTER THE VALUE OF THE X COORDINATE: ')), float(raw_input('ENTER THE VALUE OF THE Y COORDINATE: '))
+r = math.sqrt(x**2 + y**2)
+theta = math.atan2( y, x) * 180 / math.pi
+print 'THE TRANSFORMATION TO POLAR COORDINATES IS R = ', r, ' IN METERS AND THETA', theta, 'IN DEGREES. '
+
