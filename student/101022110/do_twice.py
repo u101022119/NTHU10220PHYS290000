@@ -8,5 +8,6 @@ def do_twice(f, s):
 
 def print_twice(s):
     print s
+    print s
 
 do_four(do_twice, print_twice, 'spam')
