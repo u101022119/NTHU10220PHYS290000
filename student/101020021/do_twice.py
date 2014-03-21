@@ -13,7 +13,8 @@ def do_four(f,v):
 
 
 print 'Call "do_twice"'
-do_twice(print_twice,'spam')
+do_twice(print_twice,'spam')
 
-print 'Call "do_four"'
+
+print '\nCall "do_four"'
 do_four(print_twice,'spam')
