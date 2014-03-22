@@ -1,6 +1,6 @@
 def factorial_rec(n):
     if n<0:
-        return 'factorial function is for positive numbers'
+        return 'factorial function is not for negative numbers'
     elif n-int(n)!=0:
         return 'factorial function is for integers'
     else:
