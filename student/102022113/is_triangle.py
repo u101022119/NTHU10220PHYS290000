@@ -7,7 +7,7 @@ if x<=0 or y<=0 or z<=0:
 else:
     def is_triangle(x,y,z):
         if x+y>z and y+z>x and z+x>y:
-            print 'Yes, you can form a triangle from sticks with the given lengths.'
+            print 'Yes'
         else:
-            print 'No, you cannot form a triangle from sticks with the given lengths.'
-    is_triangle(x,y,z)
+            print 'No'
+    is_triangle(int(x),int(y),int(z))
