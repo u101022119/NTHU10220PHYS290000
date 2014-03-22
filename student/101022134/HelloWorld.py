@@ -1,2 +1,2 @@
-# Please write your HelloWorld.py code and commit it!
-print 'Hello, world!'
+#Homework 1 exercise 1
+print 'Hello, World!'
