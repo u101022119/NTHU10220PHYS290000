@@ -1,5 +1,7 @@
-def factorial_rec(n):    
-    if n == 0:
+def factorial_rec(n):
+    if n < 0:
+        print 'None'
+    elif n == 0:
         return 1
     else:
         rec = factorial_rec(n-1)
