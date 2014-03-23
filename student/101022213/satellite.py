@@ -9,4 +9,7 @@ def satellite(T):
     y= 4*(math.pi)*(math.pi)
     z= (x/y)**(1.0/3)
     H = z - 6417000
-    print "the attitude h above the Earth¡¦s surface is",H
+    if H <0:
+        print "this period time is too small"
+    else:
+        print "the attitude h above the Earth¡¦s surface is",H
