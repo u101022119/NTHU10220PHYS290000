@@ -1,5 +1,7 @@
-#EX2: Right justify
-#stu id: 101022171
+#File: right_justify.py
+#HW1_EX2_Right_justify
+#Due: 3/25/2014
+#Author: 101022171
 	
 from __future__ import print_function
 	
