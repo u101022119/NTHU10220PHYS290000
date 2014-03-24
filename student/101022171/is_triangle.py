@@ -17,5 +17,4 @@ a = int (input("Enter an integer a >:"))
 b = int (input("Enter an integer b >:"))
 c = int (input("Enter an integer c >:"))
 
-
 is_triangle(a, b, c)
