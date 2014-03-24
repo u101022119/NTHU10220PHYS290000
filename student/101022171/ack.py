@@ -1,5 +1,5 @@
 #File: ack.py
-#HW1_EX10_Ackermann_function
+#HW1_EX10_Ackermann_function
 #Due: 3/25/2014
 #Author: 101022171
 
