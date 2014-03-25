@@ -1,0 +1,29 @@
+# The period of a Geosynchronous satellite is the same as the Earth's rotation period, approximately 86400 seconds, and a geostationary orbit is 35786 km above the equator.
+
+while True:
+    import math
+    print "Enter 0 to break the program."
+    T = float(raw_input("The period of your own satellite: "))
+
+    if T == 0 :
+        break
+
+    elif T < 0 :
+        print "Please enter positive number."
+        print ""
+
+    else:
+        G = 6.67 * 10**-11
+        M = 5.97 * 10**24
+        R = 6417.0 * 10**3
+
+        h = (G * M * T**2 / (4 * math.pi**2))**(1.0/3) - R
+
+        if h < 0:
+            print "Your satellite is set to crash to Earth!"
+            print ""
+
+        else:
+            print "Your satellite is above the Earth's surface at", h, "meters."
+            print "And its speed is", 2*math.pi*(R+h)/T, "m/s."
+            print ""

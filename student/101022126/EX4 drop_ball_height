@@ -1,0 +1,17 @@
+import math
+h = float(raw_input("height (m) >> "))
+t = float(raw_input("time (s) >> "))
+
+if h<0 or t <0:
+    print "The height and the time must be zero or positive number."
+
+else:
+    h_t = h - (9.8 * t * t)/2
+    v = 9.8 * t
+
+    if h_t > 0 :
+        print "After", t,"seconds, the height of the ball above the ground is", h_t, "meters, and the speed of the ball is", v , "m/s."
+
+    else:
+        ts = math.sqrt(2 * h / 9.8)
+        print "The ball hit the ground after", ts, "seconds it dropped."
