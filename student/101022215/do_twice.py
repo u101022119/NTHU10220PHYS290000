@@ -18,10 +18,8 @@ print_twice('spam')
 ################################
 
 def do_four(f):
-    f()
-    f()
-    f()
-    f()
+    do_twice(f)
+    do_twice(f)
 
 def print_fxck():
     print 'fxck'
