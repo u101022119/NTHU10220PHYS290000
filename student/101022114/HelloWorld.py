@@ -1,1 +1,1 @@
-Nooooooooooo!!!!!!
+print'Hello, World!'
