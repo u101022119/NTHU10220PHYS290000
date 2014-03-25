@@ -1,1 +1,3 @@
-# Please write your HelloWorld.py code and commit it!
+def HelloWorld():
+    print("Hello, World!")
+HelloWorld()

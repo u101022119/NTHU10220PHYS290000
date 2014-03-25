@@ -1,0 +1,16 @@
+from swampy.TurtleWorld import *
+world = TurtleWorld()
+bob = Turtle()
+print bob
+
+
+
+for i in range(1000):
+    fd(bob, 15)
+    lt(bob, 20)
+    bob.delay = 0.01
+
+wait_for_user()
+
+
+def circle
