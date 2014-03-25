@@ -1,4 +1,11 @@
+def do_twice(f):
+    f()
+    f()
 
+def print_hello():
+    print 'hello'
+
+do_twice(print_hello)
 
 def do_twice(h):
     h()

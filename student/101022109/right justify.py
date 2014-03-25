@@ -1,10 +1,10 @@
 def right_justify(s):
     for a in range(70-len(s)):
         s =' '+s
-        print s
+    print s
 
 
 s1='hello'
-s2='world'
+s2='123456'
 right_justify(s1)
 right_justify(s2)
