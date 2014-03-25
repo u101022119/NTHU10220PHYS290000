@@ -1,10 +1,13 @@
 g=10.0
+h=float(raw_input("Put the height of the tower: "))
 def drop_ball_time(h):
     if h>0:
         t=(2*h/g)**0.5
-        print t
+        return t
     elif h==0:
-        print 0
+        return 0
     else:
-        print'Sorry, the height cannot be negative.'
+        return'Sorry, the height cannot be negative.'
+
+print drop_ball_time(h)
 
