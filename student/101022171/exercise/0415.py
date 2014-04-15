@@ -1,7 +1,7 @@
 """
 Title:   exercise in the class
-#Due:    4/22/2014
-#Author: 101022171, chin-hua Cheng
+Date:    4/15/2014
+Author:  101022171, chin-hua Cheng
 """
 import random
 from numpy import * 
