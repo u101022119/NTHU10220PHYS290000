@@ -19,8 +19,8 @@ def prime(n):
              
         if k == 0:
             print n,
-
-a = range(999999)
+b = int(raw_input('Put an integer:'))
+a = range(b+1)
 
 for i in a[2:]:
     prime(i)
