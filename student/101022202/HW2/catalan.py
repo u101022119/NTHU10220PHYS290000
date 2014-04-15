@@ -6,11 +6,17 @@ This temporary script file is located here:
 C:\Users\user\.spyder2\.temp.py
 """
 
-def catalan(n):
-    if n == 0:
-        return 1
-    else:
-        a = float(((4.0*n-2)/(n+1))) * float(catalan(n-1))
-        return a
+def prime(n):
+    a = int(n**0.5)
+    b = range(a+1)
+    k = 0
+    for i in b[2:]:
+        if float(n/i) - int(n/i) == 0:
+            k = k+1
+    if k == 0:
+        print n
+                
+prime(23)
+
         
-print catalan(6)
+        
