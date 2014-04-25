@@ -4,9 +4,9 @@ Created on Tue Apr 22 17:36:15 2014
 
 @author: user
 """
+import math
 
-
-L=59
+L=50
 
 i=-L
 j=-L
@@ -25,10 +25,8 @@ while i<=L:
                 M=M-(i**2+j**2+k**2)**(-1.0/2.0)                                      
             k=k+1            
         j=j+1
-        k=0
+        k=-L
     i=i+1
-    j=0
+    j=-L
 
-print M,i,k,j
-## for L=100 , M=-1.5380862005
-## for L=199 , M=-1.59413436285
+print M
