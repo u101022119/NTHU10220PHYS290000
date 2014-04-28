@@ -1,0 +1,1 @@
+#File: HelloWorld.py#HW1_EX1_HelloWorld#Due: 3/25/2014#Author: 101022171print "Hello, World!"

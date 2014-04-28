@@ -1,1 +1,1 @@
-101022220
+print 'Hello, World!'

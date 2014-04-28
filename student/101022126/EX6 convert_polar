@@ -1,0 +1,12 @@
+import math
+
+while True:
+    print "In Cartesian coordinate system,"
+    x = float(raw_input("the x coordinate: "))
+    y = float(raw_input("the y coordinate: "))
+
+    theta = math.atan(y/x)
+    r = x / math.cos(theta)
+
+    print "(", x, ",", y, ") --> (", r, ",", theta * (180.0 / math.pi), "degrees)"
+    print ""

@@ -1,7 +1,7 @@
 def right_justify(s):
     for a in range(70-len(s)):
         s=' '+s
-    print s
+        print s
 
 s1='hi'
 s2='world'

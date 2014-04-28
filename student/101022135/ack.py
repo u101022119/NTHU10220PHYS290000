@@ -1,0 +1,16 @@
+#File: ack.py
+#HW1_EX10_Ackermann_function
+#Due: 3/25/2014
+#Author: 101022171
+
+def ack(m,n):
+    if m == 0:
+        return n+1
+    
+    elif  m > 0 and n == 0:
+        return ack(m-1, 1)
+    
+    elif m > 0 and n >0:
+        return ack(m-1, ack(m, n-1))
+    
+print "The Ackermann number ack(3, 4) is %d." %  ack(3, 4)

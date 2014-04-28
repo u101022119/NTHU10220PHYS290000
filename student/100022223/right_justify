@@ -1,0 +1,7 @@
+def right_justify():
+    a = str(raw_input('enter the word : '))
+    b = len(a)
+    c = 70 - b
+    print " "*c , a
+
+right_justify()

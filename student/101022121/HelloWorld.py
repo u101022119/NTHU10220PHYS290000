@@ -1,1 +1,1 @@
-12231
+print 'Hello World'

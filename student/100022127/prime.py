@@ -6,8 +6,10 @@ def showPrime(num):
             if i%j==0:
                 notPrime=True
                 break
+            if(j**2>i):
+                break
         if not notPrime:
             prime.append(i)
     print prime
 
-showPrime(500)
+showPrime(50000)
