@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 28 19:48:08 2014
-
-@author: Sonic
-"""
-
 e=1.602*10**(-19)
 a=564.02*10**-12
 #e=1
@@ -49,5 +42,3 @@ print sumv(L)
 #    t=t+1""
     
 #print v(b[0],b[1],b[2])   
-
-
