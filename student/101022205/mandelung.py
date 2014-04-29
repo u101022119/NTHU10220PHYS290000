@@ -12,4 +12,4 @@ for i in range(-L,L+1):
                 M = M-1/math.sqrt(i**2+j**2+k**2)
 
 print M
-                
+            
