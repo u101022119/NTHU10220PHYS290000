@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 28 19:28:17 2014
-
-@author: Sonic
-"""
-
 def catalan(n):
     if n==0:
         return 1

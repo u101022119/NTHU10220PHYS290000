@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 28 22:20:52 2014
-
-@author: Sonic
-"""
 from numpy import *
 from pylab import *
 
