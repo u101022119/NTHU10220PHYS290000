@@ -6,13 +6,13 @@ Created on Tue Apr 15 16:35:34 2014
 """
 
 
-mL=300
-a=ones(mL**2*3)+0.0
+mL=301
+a=ones(mL**2*3)*(-1)
 
 def rms(x,y,z):
     i=x**2+y**2+z**2
-    if a[i]==1.0:
-        a[i]=1.0/(i)**0.5*(-1)**(x+y+z+1)
+    if a[i]==-1.0:
+        a[i]=1.0/(i)**0.5*(-1)**(x+y+z)
     return a[i]
 
 ML=[]
@@ -30,7 +30,6 @@ for L in range(mL)[1:]:
         print "Vt(",L,") = ",Vt," M= ",M
     ML.append(Vt)
 
-print ML
 import numpy as np
 import matplotlib.pyplot as plt
 plt.plot(range(mL)[1:],ML,"r-")
