@@ -14,7 +14,6 @@ def madelung_constant(L):
 print 'correct madelung_constant=-1.748'
 
 M = int(raw_input("Enter L of madelung constant: "))
-print M
 madelung_constant(M)
 
 
