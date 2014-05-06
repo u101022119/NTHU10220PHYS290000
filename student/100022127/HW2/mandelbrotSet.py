@@ -24,7 +24,6 @@ def rec(time,arg):
             if z[x*num+y]<=2:
                 plt.plot(cx[x],cy[y],arg)
         
-        
 rec(20,'r.')
 rec(40,'g.')
 rec(40,'b.')
