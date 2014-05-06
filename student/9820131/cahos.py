@@ -12,8 +12,8 @@ x[0]=0.5
 for k in range(0,400):
     for i in range(0,999):
         x[i+1]=r[k]*x[i]*(1-x[i])
-        if i>980:
-            scatter(r[k],x[i])
+        if i>950:
+            plot(r[k],x[i],'b,')
         i=i+1
     k=k+1
 show()
