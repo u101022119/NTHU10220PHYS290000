@@ -8,8 +8,9 @@ def catalan(n):
         print 'n should be 0 or positive number'
 for n in range(50):
     if catalan(n)<1000000:
-        print catalan(n)
+        print 'catalan(%g)=%g'%(n,catalan(n))
     if catalan(n)>1000000:
+        print 'catalan(%g)=%g'%(n,catalan(n))
         print 'now it is the limit,when n=',n
         break
 #for loop can use in "list",but now our list is unkonwn,so you can "guess" the range
