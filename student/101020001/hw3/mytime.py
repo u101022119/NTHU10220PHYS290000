@@ -68,9 +68,10 @@ def increment_pure(time,addsec):
     
 increment_pure(start,addsec)
 
-def mul_time():
+distance=3000.0
 
-
-
-
+def mul_time(time,distance):
+    ap=distance/(time.hour*3600+time.min*60+time.s)
+    print 'the averge pace is',ap,'s/mile'
+mul_time(start,distance)
 
