@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This temporary script file is located here:
-C:\Users\Gary\.spyder2\.temp.py
-"""
 import math
-L = 100
+L = int(raw_input("the value of L"))
 M = 0
 for i in range(-L,L+1):
     for j in range(-L,L+1):

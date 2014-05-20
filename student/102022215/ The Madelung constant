@@ -1,0 +1,30 @@
+from math import sqrt
+l=100;
+m1=0;
+
+#calculation for the body lattice point in first quadrant...#####
+for i in range(1,l+1):
+    
+    for j in range (1,l+1): 
+        
+        for k in range (1,l+1):
+                m1+=((-1)**(i+j+k+1))/sqrt(i*i+j*j+k*k)
+             
+
+
+# for the axis lattice points x- axis #
+m2=0;
+for i in range (1,l+1):
+    m2+=((-1)**(i+1))/sqrt(i*i)
+
+
+
+##for the x-y plane lattice points ##
+m3=0;
+for i in range (1,l+1):
+    for j in range(1,l+1):
+        m3+=((-1)**(i+j+1))/sqrt(i*i+j*j)
+
+final_m=8*m1+12*m3+6*m2;
+
+print"The required value of the madlung constant for NaCl is %f"%(final_m)
