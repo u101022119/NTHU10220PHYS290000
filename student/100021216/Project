@@ -1,0 +1,180 @@
+import pygame, sys, random
+from pygame.locals import *
+
+# set up pygame
+pygame.init()
+mainClock = pygame.time.Clock()
+
+# set up the window
+WINDOWWIDTH = 500
+WINDOWHEIGHT = 500
+windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), 0, 32)
+pygame.display.set_caption('Input')
+
+# set up the colors
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+RED = (255, 0, 0)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GRAY  = (160, 160, 160)
+DARKGRAY = (64, 64, 64)
+DARKGREEN = (0, 128, 0)
+
+# set up movement variables
+moveLeft = False
+moveRight = False
+moveUp = False
+moveDown = False
+
+DOWNLEFT = 1
+DOWNRIGHT = 3
+UPLEFT = 7
+UPRIGHT = 9
+
+START = False
+
+MOVESPEED = 6
+
+# set up the player and brick data structure
+BRICKHEIGHT = 15
+BRICKWIDTH = 30
+bricks = []
+l=25
+for i in range(15):
+    t=45
+    for j in range(18):
+        bricks.append(pygame.Rect(l,t,BRICKWIDTH, BRICKHEIGHT))
+        t += BRICKHEIGHT
+    l += BRICKWIDTH
+    
+player = pygame.Rect(250, 420, 60, 10)
+
+ball = {'rect':pygame.Rect(275, 410, 10, 10), 'dir':UPLEFT}
+
+
+# run the game loop
+while True:
+    # check for events
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == KEYDOWN:
+            # change the keyboard variables
+            if event.key == K_LEFT:
+                moveRight = False
+                moveLeft = True
+            if event.key == K_RIGHT:
+                moveLeft = False
+                moveRight = True
+            if event.key == K_UP:
+                moveDown = False
+                moveUp = True
+            if event.key == K_DOWN:
+                moveUp = False
+                moveDown = True    
+            if event.key == K_SPACE:
+                START = True 
+            
+        if event.type == KEYUP:
+            if event.key == K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+            if event.key == K_LEFT:
+                moveLeft = False
+            if event.key == K_RIGHT:
+                moveRight = False
+            if event.key == K_UP:
+                moveUp = False
+            if event.key == K_DOWN or event.key == ord('s'):
+                moveDown = False
+  
+    # draw the background onto the surface
+    windowSurface.fill(GRAY)
+
+    if START:
+        # move the ball data structure
+        if ball['dir'] == DOWNLEFT:
+            ball['rect'].left -= MOVESPEED
+            ball['rect'].top += MOVESPEED
+        if ball['dir'] == DOWNRIGHT:
+            ball['rect'].left += MOVESPEED
+            ball['rect'].top += MOVESPEED
+        if ball['dir'] == UPLEFT:
+            ball['rect'].left -= MOVESPEED
+            ball['rect'].top -= MOVESPEED
+        if ball['dir'] == UPRIGHT:
+            ball['rect'].left += MOVESPEED
+            ball['rect'].top -= MOVESPEED
+
+        # check if the ball has move out of the window
+        if ball['rect'].top < 0:
+            # ball has moved past the top
+            if ball['dir'] == UPLEFT:
+                ball['dir'] = DOWNLEFT
+            if ball['dir'] == UPRIGHT:
+                ball['dir'] = DOWNRIGHT
+        if ball['rect'].bottom > WINDOWHEIGHT:  
+            # ball has moved past the bottom  i.e. game over
+           ball['dir'] = 0
+           
+        if ball['rect'].left < 0:
+            # ball has moved past the left side
+            if ball['dir'] == DOWNLEFT:
+                ball['dir'] = DOWNRIGHT
+            if ball['dir'] == UPLEFT:
+                ball['dir'] = UPRIGHT
+        if ball['rect'].right > WINDOWWIDTH:
+            # ball has moved past the right side
+            if ball['dir'] == DOWNRIGHT:
+                ball['dir'] = DOWNLEFT
+            if ball['dir'] == UPRIGHT:
+                ball['dir'] = UPLEFT
+        #move the player
+        if moveDown and player.bottom < WINDOWHEIGHT:
+            player.top += MOVESPEED
+        if moveUp and player.top > 420:
+            player.top -= MOVESPEED
+        if moveLeft and player.left > 0:
+            player.left -= MOVESPEED
+        if moveRight and player.right < WINDOWWIDTH:
+            player.right += MOVESPEED
+      
+    else: 
+        #move the player and ball
+        if moveDown and player.bottom < WINDOWHEIGHT and ball['rect'].bottom < WINDOWHEIGHT-10:
+            player.top += MOVESPEED
+            ball['rect'].top += MOVESPEED
+        if moveUp and player.top > 420 and ball['rect'].top > 430:
+            player.top -= MOVESPEED
+            ball['rect'].top -= MOVESPEED
+        if moveLeft and player.left > 0 and ball['rect'].left > 25:
+            player.left -= MOVESPEED
+            ball['rect'].left -= MOVESPEED
+        if moveRight and player.right < WINDOWWIDTH and ball['rect'].right < WINDOWWIDTH-25:
+            player.right += MOVESPEED
+            ball['rect'].right += MOVESPEED
+
+    # draw the player onto the surface
+    pygame.draw.rect(windowSurface, WHITE, player)
+    pygame.draw.rect(windowSurface, DARKGRAY, ball['rect'])
+
+    # check if the ball has intersected with any brick squares.
+    for brick in bricks[:]:
+        if ball['rect'].colliderect(brick):
+            bricks.remove(brick)
+            
+    if ball['rect'].colliderect(player):
+        if ball['dir'] == DOWNLEFT:
+            ball['dir'] = UPLEFT
+        if ball['dir'] == DOWNRIGHT:
+            ball['dir'] = UPRIGHT
+    
+    # draw the food
+    for i in range(len(bricks)):
+        pygame.draw.rect(windowSurface, GREEN, bricks[i],2)
+
+    # draw the window onto the screen
+    pygame.display.update()
+    mainClock.tick(40)
