@@ -13,8 +13,10 @@ def log(r,x,n):   #start from x, growth rate r, do n times
         x=r*x*(1-x)
         k=k+1
     return x
-from matplotlib.pylab import *
-r = arange(1,3,0.01)
-y = log(r,2,100)
+
+#from matplotlib.pylab import *
+r = linspace(1,4,300)
+y = log(r,0.05,1000)
 plot(r,y)
 show()
+
