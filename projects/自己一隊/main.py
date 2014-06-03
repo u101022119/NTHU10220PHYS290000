@@ -62,6 +62,34 @@ def conflict(coord):
                     return True
     return False
 
+def banishX(x,y,bgc,bonus):
+    for bx in range(bgc):
+        bricks[x-bx][y].banished=True
+        if bonus:
+            if y<maxY-1:
+                bricks[x-bx][y+1].banished=True
+            if y>0:
+                bricks[x-bx][y-1].banished=True
+    if bonus:
+        if x<maxX-1:
+            bricks[x+1][y].banished=True
+        if x-bgc>=0:
+            bricks[x-bgc][y].banished=True
+
+def banishY(x,y,bgc,bonus):
+    for by in range(bgc):
+        bricks[x][y-by].banished=True
+        if bonus:
+            if x<maxX-1:
+                bricks[x+1][y-by].banished=True
+            if x>0:
+                bricks[x-1][y-by].banished=True
+    if bonus:
+        if y<maxY-1:
+            bricks[x][y+1].banished=True
+        if y-bgc>=0:
+            bricks[x][y-bgc].banished=True
+
 def check():
     rec=False
     for y in range(maxY):
@@ -73,22 +101,7 @@ def check():
                 bgc+=1
             else:
                 if bgc>=3 and bricks[x][y]!=noBrick:
-                    if(bricks[x][y].bgcolor==bonusBrick.word):
-                        bonus=True
-                    else:
-                        bonus=False
-                    for bx in range(bgc):
-                        bricks[x-bx][y].banished=True
-                        if bonus:
-                            if y<maxY-1:
-                                bricks[x-bx][y+1].banished=True
-                            if y>0:
-                                bricks[x-bx][y-1].banished=True
-                    if bonus:
-                        if x<maxX-1:
-                            bricks[x+1][y].banished=True
-                        if x-bgc>=0:
-                            bricks[x-bgc][y].banished=True
+                    banishX(x,y,bgc,bricks[x][y].bgcolor==bonusBrick.word)
                     rec=True
                 bgc=1
                 
@@ -96,24 +109,15 @@ def check():
                 wdc+=1
             else:
                 if wdc>=3 and bricks[x][y]!=noBrick:
-                    if(bricks[x][y].word==bonusBrick.bgcolor):
-                        bonus=True
-                    else:
-                        bonus=False
-                    for bx in range(wdc):
-                        bricks[x-bx][y].banished=True
-                        if bonus:
-                            if y<maxY-1:
-                                bricks[x-bx][y+1].banished=True
-                            if y>0:
-                                bricks[x-bx][y-1].banished=True
-                    if bonus:
-                        if x<maxX-1:
-                            bricks[x+1][y].banished=True
-                        if x-wdc>=0:
-                            bricks[x-wdc][y].banished=True
+                    banishX(x,y,wdc,bricks[x][y].word==bonusBrick.bgcolor)
                     rec=True
                 wdc=1
+        if bgc>=3 and bricks[maxX-1][y]!=noBrick:
+            banishX(maxX-1,y,bgc,bricks[maxX-1][y].bgcolor==bonusBrick.word)
+            rec=True
+        if wdc>=3 and bricks[maxX-1][y]!=noBrick:
+            banishX(maxX-1,y,wdc,bricks[maxX-1][y].word==bonusBrick.bgcolor)
+            rec=True
     for x in range(maxX):
         bgc=1
         wdc=1
@@ -123,22 +127,7 @@ def check():
                 bgc+=1
             else:
                 if bgc>=3 and bricks[x][y]!=noBrick:
-                    if(bricks[x][y].bgcolor==bonusBrick.word):
-                        bonus=True
-                    else:
-                        bonus=False
-                    for by in range(bgc):
-                        bricks[x][y-by].banished=True
-                        if bonus:
-                            if x<maxX-1:
-                                bricks[x+1][y-by].banished=True
-                            if x>0:
-                                bricks[x-1][y-by].banished=True
-                    if bonus:
-                        if y<maxY-1:
-                            bricks[x][y+1].banished=True
-                        if y-bgc>=0:
-                            bricks[x][y-bgc].banished=True
+                    banishY(x,y,bgc,bricks[x][y].bgcolor==bonusBrick.word)
                     rec=True
                 bgc=1
 
@@ -146,25 +135,15 @@ def check():
                 wdc+=1
             else:
                 if wdc>=3 and bricks[x][y]!=noBrick:
-                    if(bricks[x][y].word==bonusBrick.bgcolor):
-                        bonus=True
-                    else:
-                        bonus=False
-                    for by in range(wdc):
-                        bricks[x][y-by].banished=True
-                        if bonus:
-                            if x<maxX-1:
-                                bricks[x+1][y-by].banished=True
-                            if x>0:
-                                bricks[x-1][y-by].banished=True
-                    if bonus:
-                        if y<maxY-1:
-                            bricks[x][y+1].banished=True
-                        if y-wdc>=0:
-                            bricks[x][y-wdc].banished=True
+                    banishY(x,y,wdc,bricks[x][y].word==bonusBrick.bgcolor)
                     rec=True
                 wdc=1
-
+        if bgc>=3 and bricks[x][maxY-1]!=noBrick:
+            banishY(x,maxY-1,bgc,bricks[x][maxY-1].bgcolor==bonusBrick.word)
+            rec=True
+        if wdc>=3 and bricks[x][maxY-1]!=noBrick:
+            banishY(x,maxY-1,wdc,bricks[x][maxY-1].word==bonusBrick.bgcolor)
+            rec=True
     if rec:
         global BANISH
         global status
@@ -297,9 +276,9 @@ while not done:
     score=0
     
     ftime=0
-    tpf=30
+    tpf=24
     retry =False
-    while not done and not retry:
+    while (not done) and (not retry):
        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -319,10 +298,10 @@ while not done:
                     elif event.key == pygame.K_UP:
                         rotate()
                     elif event.key == pygame.K_DOWN:
-                        tpf=5;
+                        tpf=4;
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
-                    tpf=30
+                    tpf=24
         if status==PLAY :
             if(ftime % tpf == 0):
                 if not conflict((control[0],control[1]-1)):
@@ -360,16 +339,17 @@ while not done:
         elif(status==BANISH):
             banishTime+=1
             if(banishTime>=24):
-                status=PLAY
                 for x in range(maxX):
                     sy=0
                     for y in range (maxY):
-                        if not bricks[x][y].banished:
+                        if (not bricks[x][y].banished) or bricks[x][y]==noBrick:
                             bricks[x][sy]=bricks[x][y]
                             sy+=1
                     score+=(maxY-sy)*10
                     for y in range(maxY)[sy:]:
                         bricks[x][y]=noBrick
+                status=PLAY
+                banishTime=0
                 check()
                 if status==PLAY:
                     bonusBrick=Brick(int(random()*4),0,int(random()*4))
