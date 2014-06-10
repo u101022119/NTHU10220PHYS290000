@@ -18,7 +18,8 @@
 探討方式
 ------------
 
-• 利用Euler法、Newton定律以及Feynman演算法，帶入初始x0
+• 利用Euler法、Newton定律以及Feynman演算法，帶入初始𝑥0、𝑣0求解。 
+
 • 由總能𝐸 =
 1
 2
