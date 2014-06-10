@@ -1,12 +1,19 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jun 10 16:48:27 2014
+
+@author: user
+"""
+
 #Driven harmonic oscillator
 #dx/dt=v
 #dv/dt=-w*w*x-b*v
 from pylab import*
 from math import*
-x0=0.754682
-v0=-59.7952
-w=2
-F=50
+x0=float(raw_input("Please enter the initial position x0"))
+v0=float(raw_input("Please enter the initial velocity v0"))
+w=float(raw_input("Please enter the frequency w of the force F"))
+F=float(raw_input("Please enter the force F"))
 Q=4
 t=0 #initial time
 h=0.001 #time step size
@@ -22,8 +29,7 @@ v0=v0+h*(-x0-v0/Q)/2
 while(t<=100):
    
     x1=x0+h*v0
-    v1=v0+h*(-x1-v0/Q+F*math.cos(w*t))
-   
+    v1=v0+h*(-x1-v0/Q+F*math.cos(w*t))   
     xdat.append(x1)
     vdat.append(v1)
     time.append(t)
