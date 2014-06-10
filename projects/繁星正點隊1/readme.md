@@ -1,14 +1,37 @@
-An h1 header
+Color Sorting Game
 ============
 
-Paragraphs are separated by a blank line.
+這是一個遊戲讓玩家根據程式所給的參考圖畫，去嘗試排列相近的顏色
 
-2nd paragraph. *Italic*, **bold**, `monospace`. Itemized lists
-look like:
+遊戲畫面分成兩個部分
 
-  * this one
-  * that one
-  * the other one
+  * 遊戲選單
+  * 遊戲畫面
+
+遊戲選單內包含五種難度給玩家選擇,難度的不同因方格色碼的變化量而不同
+ 1. easy, 以25為單位做變化
+ 2. normal, 以10為單位做變化
+ 3. hard, 以5為單位做變化
+ 4. crazy, 以3為單位做變化
+ 5. WTH, 以1為單位做變化
+
+難度的不同以list的形式把100個方格應該擁有的顏色存在程式碼裡面的這個部分
+
+~~~
+
+#gamemode
+easy=range(0,250,25)
+normal=range(100,200,10)
+hard=range(150,200,5)
+crazy=range(150,180,3)
+WTH=range(150,160,1)
+
+~~~
+
+---
+
+for the menu, I create five buttons for the players to select.
+
 
 Note that --- not considering the asterisk --- the actual text
 content starts at 4-columns in.
