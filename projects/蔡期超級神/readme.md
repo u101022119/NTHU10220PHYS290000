@@ -97,3 +97,39 @@ Damping Oscillator
 • w=2,b=4
 • b^2/4=w0^2
  
+ Overdamping Motion
+ 
+• w=2,b=10
+• b^2/4>w0^2
+
+
+
+
+Driven Harmonic Oscillator
+----------------------------------
+
+• 初始位置 X0=10
+
+• 初始速度 Vo=20
+
+• W=2
+
+• w0=2
+
+• b=10
+
+• F=100
+
+
+
+
+Nonlinear Oscillator
+-----------------------------------
+
+• 初始位置 X0=10
+
+• 初始速度 Vo=20
+
+• W=2
+
+• Q=10
