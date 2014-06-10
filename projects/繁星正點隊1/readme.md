@@ -28,7 +28,36 @@ WTH=range(150,160,1)
 
 ~~~
 
----
+函數定義
+-----
+這邊稍微介紹一下程式中所定義的函數
+
+####1.這是產生100個方格的函數##
+
+~~~
+def BLOCKARRAYDETAIL(s,t):
+    u=[]
+    x=0
+    y=0
+    while x <10:
+        while y <10:
+            BLOCK=Rectangle(x,y)
+            BLOCK.color(t)
+            r=[BLOCK.x,BLOCK.y,BLOCK.red,BLOCK.green]
+            v=[BLOCK.red,BLOCK.green]
+            if v in u:
+                y+=0
+            else:
+                u.append(v)
+                s.append(r)
+                y+=1
+        y=0
+        x+=1
+    return s
+
+~~~
+
+
 
 for the menu, I create five buttons for the players to select.
 
