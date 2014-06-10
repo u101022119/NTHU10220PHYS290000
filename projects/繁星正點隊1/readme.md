@@ -91,6 +91,19 @@ def DRAWBLOCKARRAY(s):
             pygame.draw.rect(windowSurface,(s[i][j][2],s[i][j][3],0),(s[i][j][0],s[i][j][1],BLOCKSIZE,BLOCKSIZE)) 
 ~~~
 
+####4.決定方格是否被點擊過的判斷函數##
+
+~~~
+def GenerateSelectedBoxData(val):
+    SelectedBox=[]
+    for i in range(10):
+        SelectedBox.append([val]*10)
+    return SelectedBox
+~~~
+
+
+
+
 for the menu, I create five buttons for the players to select.
 
 
