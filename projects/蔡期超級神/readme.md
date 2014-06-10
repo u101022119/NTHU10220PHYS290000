@@ -87,12 +87,13 @@ Damping Oscillator
 
 • F=4
 
-Underdamping Motion
---------------------------
-w=2,b=0.05
-b^2/4<w0^2
+  Underdamping Motion
 
-Critically damping Motion
-----------------------------
-w=2,b=4
-b^2/4=w0^2
+• w=2,b=0.05
+• b^2/4<w0^2
+
+  Critically damping Motion
+
+• w=2,b=4
+• b^2/4=w0^2
+ 
