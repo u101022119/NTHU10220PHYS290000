@@ -4,11 +4,11 @@
 #Feynman Newton algorithm
 from pylab import*
 from math import*
-x0=10
-v0=20
-w=2
-Q=10
-F=100
+x0=float(raw_input("Please enter the initial position x0="))
+v0=float(raw_input("Please enter the initial position v0="))
+w=float(raw_input("Please enter the frequency of the force w="))
+F=float(raw_input("Please enter the force F="))
+Q=float(raw_input("Please enter the damping factor Q="))
 t=0 #initial time
 h=0.001 #time step size
 T=1000
