@@ -40,6 +40,6 @@
 
 • 討論非線性震盪的相圖 
 
-• Van Del Pol oscillator:𝑞̈+𝑞 +ε𝑞^3 = �fcos(wt)
+• Van Del Pol oscillator:𝑞̈+𝑞 +ε𝑞^3 = f*cos(wt)
 • 𝑥̇ = 𝑣 
-• 𝑣̇ = −𝑥 −ε𝑥3 +�f*cos(wt)
+• 𝑣̇ = −𝑥 −ε𝑥3 +f*cos(wt)
