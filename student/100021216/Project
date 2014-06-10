@@ -7,19 +7,20 @@ mainClock = pygame.time.Clock()
 
 # set up the window
 WINDOWWIDTH = 500
-WINDOWHEIGHT = 500
+WINDOWHEIGHT = 520
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), 0, 32)
+BASICFONT = pygame.font.Font('freesansbold.ttf', 18)
 pygame.display.set_caption('Input')
 
 # set up the colors
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-RED = (255, 0, 0)
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GRAY  = (160, 160, 160)
-DARKGRAY = (64, 64, 64)
-DARKGREEN = (0, 128, 0)
+GREEN       = (0, 255, 0)
+BLUE        = (0, 0, 255)
+RED         = (255, 0, 0)
+BLACK       = (0, 0, 0)
+WHITE       = (255, 255, 255)
+GRAY        = (160, 160, 160)
+DARKGRAY    = (64, 64, 64)
+DARKGREEN   = (0, 128, 0)
 
 # set up movement variables
 moveLeft = False
@@ -34,17 +35,37 @@ UPRIGHT = 9
 
 START = False
 
-MOVESPEED = 6
+MOVESPEED = 8
 
+
+def drawScore(score):
+    scoreSurf = BASICFONT.render('Score: %s' % (score), True, WHITE)
+    scoreRect = scoreSurf.get_rect()
+    scoreRect.topleft = (WINDOWWIDTH - 120, 10)
+    windowSurface.blit(scoreSurf, scoreRect)
+
+
+def showGameOverScreen():
+    gameOverFont = pygame.font.Font('freesansbold.ttf', 150)
+    gameSurf = gameOverFont.render('Game', True, WHITE)
+    overSurf = gameOverFont.render('Over', True, WHITE)
+    gameRect = gameSurf.get_rect()
+    overRect = overSurf.get_rect()
+    gameRect.midtop = (WINDOWWIDTH / 2, 10)
+    overRect.midtop = (WINDOWWIDTH / 2, gameRect.height + 10 + 25)
+    windowSurface.blit(gameSurf, gameRect)
+    windowSurface.blit(overSurf, overRect)
+    
+    
 # set up the player and brick data structure
 BRICKHEIGHT = 15
 BRICKWIDTH = 30
-bricks = []
+Gbricks = []
 l=25
 for i in range(15):
     t=45
-    for j in range(18):
-        bricks.append(pygame.Rect(l,t,BRICKWIDTH, BRICKHEIGHT))
+    for j in range(16):
+        Gbricks.append(pygame.Rect(l,t,BRICKWIDTH, BRICKHEIGHT))
         t += BRICKHEIGHT
     l += BRICKWIDTH
     
@@ -52,7 +73,10 @@ player = pygame.Rect(250, 420, 60, 10)
 
 ball = {'rect':pygame.Rect(275, 410, 10, 10), 'dir':UPLEFT}
 
+score = 0
 
+
+        
 # run the game loop
 while True:
     # check for events
@@ -116,8 +140,12 @@ while True:
             if ball['dir'] == UPRIGHT:
                 ball['dir'] = DOWNRIGHT
         if ball['rect'].bottom > WINDOWHEIGHT:  
-            # ball has moved past the bottom  i.e. game over
-           ball['dir'] = 0
+            # ball has moved past the bottom  i.e. you lost a ball
+            ball['dir'] = 0
+            showGameOverScreen()           
+            '''
+            wright a Game-Over screen
+            '''  
            
         if ball['rect'].left < 0:
             # ball has moved past the left side
@@ -161,9 +189,9 @@ while True:
     pygame.draw.rect(windowSurface, DARKGRAY, ball['rect'])
 
     # check if the ball has intersected with any brick squares.
-    for brick in bricks[:]:
+    for brick in Gbricks[:]:
         if ball['rect'].colliderect(brick):
-            bricks.remove(brick)
+            Gbricks.remove(brick)
             
     if ball['rect'].colliderect(player):
         if ball['dir'] == DOWNLEFT:
@@ -172,9 +200,12 @@ while True:
             ball['dir'] = UPRIGHT
     
     # draw the food
-    for i in range(len(bricks)):
-        pygame.draw.rect(windowSurface, GREEN, bricks[i],2)
-
+    for i in range(len(Gbricks)):
+        pygame.draw.rect(windowSurface, GREEN, Gbricks[i],2)
+    
+    drawScore(6)
     # draw the window onto the screen
     pygame.display.update()
-    mainClock.tick(40)
+    mainClock.tick(30)
+    
+
