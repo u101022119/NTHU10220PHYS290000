@@ -1,0 +1,10 @@
+n = int(raw_input(">> "))
+def factorial_rec(n):
+    if n == 0:
+        return 1
+    else:
+        recurse = factorial_rec(n-1)
+        result = n * recurse
+        return result
+    
+print factorial_rec(n)

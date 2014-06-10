@@ -21,6 +21,8 @@ basicFont = pygame.font.SysFont(None, 48)
 # set up the text
 text = basicFont.render('Hello world!', True, WHITE, BLUE)
 textRect = text.get_rect()
+print textRect
+print textRect.centerx, textRect.centery
 textRect.centerx = windowSurface.get_rect().centerx
 textRect.centery = windowSurface.get_rect().centery
 

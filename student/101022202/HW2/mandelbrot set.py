@@ -22,7 +22,7 @@ for i in range(n):
             z = z**2+(x[i]+y[j]*1j)
             if z*z.conjugate()>4:
                 break            
-        if z*z.conjugate()<4:
+        if z*z.conjugate()<=4:
             a1[n*i+j] = x[i]
             a2[n*i+j] = y[j]
 
