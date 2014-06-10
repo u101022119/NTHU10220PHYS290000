@@ -77,6 +77,7 @@ def banishX(x,y,bgc,bonus):
             bricks[x-bgc][y].banished=True
 
 def banishY(x,y,bgc,bonus):
+    global changeBonus
     for by in range(bgc):
         bricks[x][y-by].banished=True
         if bonus:
@@ -89,6 +90,7 @@ def banishY(x,y,bgc,bonus):
             bricks[x][y+1].banished=True
         if y-bgc>=0:
             bricks[x][y-bgc].banished=True
+        changeBonus=True
 
 def check():
     rec=False
@@ -156,27 +158,6 @@ def rotate():
     global controlBricks
     x=control[0]
     y=control[1]
-    
-    xa=0
-    while controlBricks[2-xa][2]!=noBrick:
-        xa+=1
-        if(xa==3):break
-    xb=0
-    while controlBricks[2+xb][2]!=noBrick:
-        xb+=1
-        if(xb==3):break
-    ya=0
-    while controlBricks[2][2-ya]!=noBrick:
-        ya+=1
-        if(ya==3):break
-    yb=0
-    while controlBricks[2][2+yb]!=noBrick:
-        yb+=1
-        if(yb==3):break
-    if x-ya<-1 or x+yb>=maxX+1:
-        return True
-    if y-xb<-1 or y+xa>=maxY+1:
-        return True
         
     for cx in range(3):
         for cy in range(2):
@@ -187,6 +168,17 @@ def rotate():
             controlBricks[by][cx]=controlBricks[bx][by]
             controlBricks[bx][by]=controlBricks[cy][bx]
             controlBricks[cy][bx]=temp
+            
+    if(conflict(control)):
+        for cx in range(3):
+            for cy in range(2):
+                bx=4-cx
+                by=4-cy
+                temp=controlBricks[cx][cy]
+                controlBricks[cx][cy]=controlBricks[cy][bx]
+                controlBricks[cy][bx]=controlBricks[bx][by]
+                controlBricks[bx][by]=controlBricks[by][cx]
+                controlBricks[by][cx]=temp
 
 def putBrick():
     global control
@@ -232,6 +224,7 @@ maxY=16
 PLAY=0
 BANISH=1
 GAMEOVER=2
+PAUSE=3
 banishTime=0
 
 import pygame
@@ -274,6 +267,7 @@ while not done:
     
     status=PLAY
     score=0
+    changeBonus=False
     
     ftime=0
     tpf=24
@@ -288,7 +282,10 @@ while not done:
                     done=True
                 if event.key == pygame.K_r:
                     retry=True
-                if  status==PLAY:
+                if  status==PAUSE:
+                    if event.key == pygame.K_p:
+                        status=PLAY
+                elif  status==PLAY:
                     if event.key == pygame.K_RIGHT:
                         if not conflict((control[0]+1,control[1])):
                             control=(control[0]+1,control[1])
@@ -298,7 +295,9 @@ while not done:
                     elif event.key == pygame.K_UP:
                         rotate()
                     elif event.key == pygame.K_DOWN:
-                        tpf=4;
+                        tpf=3;
+                    elif event.key == pygame.K_p:
+                        status=PAUSE
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_DOWN:
                     tpf=24
@@ -323,12 +322,12 @@ while not done:
         for x in range(5):
             for y in range(5):
                 controlBricks[x][y].show(control[0]+x-2,control[1]+y-2)
-        for x in range(6):
+        for x in range(5):
             n=(hiScore/(10**x)) %10
-            screen.blit(timer,(400-16-x*16,33),(n*16,0,16,33))
-        for x in range(6):
+            screen.blit(timer,(400-16-x*20,33),(n*16,0,16,33))
+        for x in range(5):
             n=(score/(10**x)) %10
-            screen.blit(timer,(400-16-x*16,101),(n*16,0,16,33))
+            screen.blit(timer,(400-16-x*20,101),(n*16,0,16,33))
         bonusBrick.show(-10,-10)
         if status==GAMEOVER:
             screen.blit(gameover,(16,(544-128)/2))
@@ -351,8 +350,9 @@ while not done:
                 status=PLAY
                 banishTime=0
                 check()
-                if status==PLAY:
+                if status==PLAY and changeBonus:
                     bonusBrick=Brick(int(random()*4),0,int(random()*4))
+                    changeBonus=False
 #=================== End of While 2 ===========================================
     if score>hiScore:
         hiScore=score
