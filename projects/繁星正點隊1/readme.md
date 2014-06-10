@@ -3,6 +3,13 @@ Color Sorting Game
 
 這是一個遊戲讓玩家根據程式所給的參考圖畫，去嘗試排列相近的顏色
 
+>遊戲說明:
+>先在遊戲選單裡面選擇難度
+>進到遊戲畫面後，右邊會呈現遊戲希望玩家完成的答案
+>玩家根據右邊的答案，用滑鼠點擊任兩個方格讓它交換
+>當玩家認為完成之後點擊finish鍵後系統會計算玩家的完成程度
+>給予相對應的分數，分數越低代表完成度越高
+
 遊戲畫面分成兩個部分
 
   * 遊戲選單
@@ -57,7 +64,32 @@ def BLOCKARRAYDETAIL(s,t):
 
 ~~~
 
+####2.產生對應答案的函數###
 
+~~~
+def ANSWER(t):
+    s=[]
+    for i in range(10):
+        for j in range(10):
+            box=Block()
+            box.x=900+i*40
+            box.y=20+j*40
+            box.color=BlockColor()
+            box.color.red=t[i]
+            box.color.green=t[j]
+            r=[box.x,box.y,box.color.red,box.color.green]
+            s.append(r)
+    return s
+~~~
+
+####3.把方格畫到畫面上的函數###
+
+~~~
+def DRAWBLOCKARRAY(s):
+    for i in range(10):
+        for j in range(10):
+            pygame.draw.rect(windowSurface,(s[i][j][2],s[i][j][3],0),(s[i][j][0],s[i][j][1],BLOCKSIZE,BLOCKSIZE)) 
+~~~
 
 for the menu, I create five buttons for the players to select.
 
