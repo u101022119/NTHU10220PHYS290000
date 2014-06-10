@@ -11,4 +11,4 @@ Rulls:
 3.The snake shouldn't touch the wall
 4.You should try to "eat" 35 blocks in order to win.
 
-*hint: the speed will accelerate as you eat more blocks.
+*hint*: the speed will accelerate as you eat more blocks.
