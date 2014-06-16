@@ -1,8 +1,8 @@
 quick sorting
 ============
-
-Paragraphs are separated by a blank line.
-
+我沒有使用遞迴來寫quick sorting，我的作法是用一開始的array來進行quick sorting 的所有步驟，標記已經選過的數字，
+再另一個一樣長的array來記已經選過的數字，以免它們被重複選到。
+就結果而言，就多出了相當多的步驟......
 2nd paragraph. *Italic*, **bold**, `monospace`. Itemized lists
 look like:
 
