@@ -1,1 +1,100 @@
-quicksorting_final_project
+import numpy as np
+import matplotlib.pyplot as plt   
+def quick_sort_one_step(original_array,operation_array,recording_array,start,end):
+        array_length=len(operation_array)
+        last_term=array_length-1
+        first_term=0
+        choosen_number=operation_array[last_term]
+        j=0
+        colors=[]
+        N=np.zeros(len(original_array))
+        for n in range(len(original_array)):
+            N[n]=n
+        for set_colors in range(len(original_array)):
+            if recording_array[set_colors]==-1:
+                colors.append('r')   
+            elif start<=set_colors and end>=set_colors:
+                colors.append('y')
+            else:
+                colors.append('b')
+        for j in range(0,array_length):       
+            if j+first_term>=last_term:
+                clf()
+                colors[start+last_term]='g'
+                plt.bar(N,original_array,width=0.3,color=colors)
+                plt.show()
+                plt.pause(0.5)
+                break 
+            elif operation_array[j+first_term]>choosen_number:
+                Constant=operation_array[j+first_term]
+                operation_array[j+first_term]=operation_array[last_term-1]
+                operation_array[last_term-1]=operation_array[last_term]
+                operation_array[last_term]=Constant
+                colors[start+last_term]='g'
+                last_term=last_term-1
+                first_term=first_term-1
+                clf()   
+                plt.bar(N,original_array,width=0.3,color=colors)
+                colors[start+last_term+1]='y'
+                plt.show()
+                plt.pause(1)
+                for p in range(array_length):
+                    original_array[start+p]=operation_array[p]
+        clf()
+        colors[start+last_term]='r'
+        plt.bar(N,original_array,width=0.3,color=colors)
+        plt.show()
+        plt.pause(1)
+        print colors              
+        for k in range(array_length):
+            if recording_array[start+k]!=-1:                
+                recording_array[start+k]=operation_array[k]
+        recording_array[start+last_term]=-1
+        return original_array,operation_array,recording_array
+def quick_sort(original_array):   
+    recording_array=np.copy(original_array)
+    operation_array=np.copy(original_array)
+    n=len(original_array)
+    start=0
+    end=n-1
+    for i in range(n):
+        quick_sort_one_step(original_array,operation_array,recording_array,start,end)
+        print recording_array
+        for find_start in range(0,len(original_array)):            
+            if find_start==0 and recording_array[0]!=-1:
+                start=0
+                break
+            elif find_start!=0 and recording_array[find_start-1]==-1 and recording_array[find_start]!=-1:
+                start=find_start
+                break
+        for find_end in range(0,len(original_array)):
+            if recording_array[find_end]!=-1:  
+                if find_end!=len(original_array)-1 and recording_array[find_end+1]==-1:
+                    end=find_end
+                    break
+                elif find_end==len(original_array)-1 and recording_array[find_end]!=-1:
+                    end=find_end
+        W=np.copy(recording_array)
+        operation_array=W[start:end+1]
+        print original_array
+        if operation_array[0]==-1:                
+            clf()
+            N=np.zeros(len(original_array))
+            for n in range(len(original_array)):
+                N[n]=n
+            plt.bar(N,original_array,width=0.3,color='r')
+            plt.show()
+            plt.pause(5)
+            close()
+            break
+    print original_array
+test0=randint(1,200,10)
+test=np.copy(test0)
+print test
+N=np.zeros(len(test))
+for n in range(len(test)):
+    N[n]=n    
+plt.bar(N,test,width=0.3,color='b')
+plt.pause(1)
+plt.show()
+quick_sort(test)
