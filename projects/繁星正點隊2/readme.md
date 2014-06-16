@@ -11,8 +11,7 @@ quick sorting
   array長度固定
   operation_array=np.copy(original_array)
   這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
-Note that --- not considering the asterisk --- the actual text
-content starts at 4-columns in.
+  
 
 > Block quotes are
 > written like so.
