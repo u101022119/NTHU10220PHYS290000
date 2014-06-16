@@ -13,13 +13,6 @@ recording_array專門用來記錄選過了哪些數字，對應'被選過數字�
 > operation_array=np.copy(original_array)
 這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
 
- 
-> Block quotes are
-> written like so.
->
-> They can span multiple paragraphs,
-> if you like.
-
 Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex. "it's all in
 chapters 12--14"). Three dots ... will be converted to an ellipsis.
 
