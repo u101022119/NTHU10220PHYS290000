@@ -3,13 +3,12 @@ quick sorting
 我沒有使用遞迴來寫quick sorting，我的作法是用一開始的array來進行quick sorting 的所有步驟，標記已經選過的數字，
 再用另一個一樣長的array來記已經選過的數字，以免它們被重複選到。
 就結果而言，就多出了相當多的步驟......
->我把要用來排序的array稱為original_array
 >def quick_sort(original_array):
->recording_array=np.copy(original_array)
-> recording_array專門用來記錄選過了哪些數字，對應'被選過數字的最終位置'的那一格會是-1，
-> array長度固定
-> operation_array=np.copy(original_array)
-> 這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
+我把要用來排序的array稱為original_array
+>1.recording_array=np.copy(original_array)
+recording_array專門用來記錄選過了哪些數字，對應'被選過數字的最終位置'的那一格會是-1，array長度固定
+>2. operation_array=np.copy(original_array)
+這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
   
 
 > Block quotes are
