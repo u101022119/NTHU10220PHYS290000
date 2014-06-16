@@ -9,9 +9,11 @@ quick sorting
 1.recording_array=np.copy(original_array)
 recording_array專門用來記錄選過了哪些數字，對應'被選過數字的最終位置'的那一格會是-1，這個array長度固定
 
+
 2. operation_array=np.copy(original_array)
 這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
-  
+
+ 
 > Block quotes are
 > written like so.
 >
