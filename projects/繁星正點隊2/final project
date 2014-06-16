@@ -54,10 +54,10 @@ def quick_sort_one_step(original_array,operation_array,recording_array,start,end
 def quick_sort(original_array):   
     recording_array=np.copy(original_array)
     operation_array=np.copy(original_array)
-    n=len(original_array)
+    len(original_array)
     start=0
-    end=n-1
-    for i in range(n):
+    end=len(original_array)-1
+    for i in range(len(original_array)):
         quick_sort_one_step(original_array,operation_array,recording_array,start,end)
         print recording_array
         for find_start in range(0,len(original_array)):            
