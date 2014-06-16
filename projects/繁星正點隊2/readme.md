@@ -14,10 +14,21 @@ recording_array專門用來記錄選過了哪些數字，對應'被選過數字�
 這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
 
 >start和end:
-這是代表現在正在排序的operation_array是在original_array的第幾項(起訖點)，end-start就是operation_array的長度
+這是代表現在正在排序的operation_array是在original_array的第幾項(起訖點)，一開始start=0，end=operation_array的長度-1
 
-基本的想法是，一開始先選取original_array的最後一項，此時operation_array=original_array對它做完排序後，用新的original_array取代原來的original_array，
-然後在operation_array的相對位置上(看它最後是在第幾項)標記-1，接著從operation_array
+1.基本的想法是，一開始先選取original_array的最後一項，此時operation_array=original_array
+
+2.使用quick_sort_one_step對最後一項作排序
+
+3.用新的original_array取代原來的original_array
+
+4.然後在recording_array的相對位置上(看它最後是在第幾項)標記-1，接著按照新的recording_array選出新的合適的start和end
+
+5.在新的original_array上，由新的start和end產生新的operation_array
+
+6.三個array都更新完畢，重覆1.直到operation_array長度為0
+
+
 
 
 An h2 header
