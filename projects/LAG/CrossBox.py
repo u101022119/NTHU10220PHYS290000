@@ -120,7 +120,7 @@ def main():#game loop
 				if mouseClicked:
 					clickOnBox(boxX,boxY)	
 			time -= 1
-			if time == 0:
+			if time <= 0:
 				mode = MODEMENU
 				cur.execute("insert into ranking values("+str(score)+",'unknown')")
 				con.commit()
