@@ -3,6 +3,9 @@ quick sorting
 我沒有使用遞迴來寫quick sorting，我的作法是用一開始的array來進行quick sorting 的所有步驟，標記已經選過的數字，
 再用另一個一樣長的array來記已經選過的數字，以免它們被重複選到。
 就結果而言，多出了相當多的步驟......
+ 
+基本變數介紹
+
  *def quick_sort(original_array):
   我把要用來排序的array稱為original_array，它會記下每次改動後的結果
 
@@ -16,24 +19,26 @@ quick sorting
  *start和end:
   這是代表現在正在排序的operation_array是在original_array的第幾項(起訖點)，一開始start=0，end=operation_array的長度-1
 
- *quick_sort_one_step:在目前考慮的operation_array中，將目前選取的數字排到它應該在的位置，因為quick sorting的特性，這就會是它的最終位置
+ *quick_sort_one_step:在目前考慮的operation_array中，將目前選取的數字排到它應該在的位置，因為quick  sorting的特性，這就會是它的最終位置
+ 
+步驟介紹
 
-0.先產生一個數字在1到200之間的original_array
+ 0.先產生一個數字在1到200之間的original_array
 
-1.基本的想法是，一開始先選取original_array的最後一項，此時operation_array=original_array
-(因為start=0，end=operation_array的長度-1)
+ 1.基本的想法是，一開始先選取original_array的最後一項，此時operation_array=original_array
+ (因為start=0，end=operation_array的長度-1)
 
-2.使用quick_sort_one_step對最後一項作排序
+ 2.使用quick_sort_one_step對最後一項作排序
 
-3.在2.中每一次的置換完畢後，都用新的operation_array來改寫原來的original_array，用operation_array的每一項的位置在加上此時的start的值就可以正確的取代
+ 3.在2.中每一次的置換完畢後，都用新的operation_array來改寫原來的original_array，用operation_array的每一項的位置在加上此時的start  的值就可以正確的取代
 
-4.結束2.後在recording_array之中，被選數字的最終相對位置上(看它最後是在第幾項)標記-1(以免被選到)，接著按照新的recording_array，從左邊開始，選出新的合適的start和end
+ 4.結束2.後在recording_array之中，被選數字的最終相對位置上(看它最後是在第幾項)標記-1(以免被選到)，接著按照新的recording_array，從 左邊開始，選出新的合適的start和end
 
-5.在新的original_array上，由新的start和end產生新的operation_array
+ 5.在新的original_array上，由新的start和end產生新的operation_array
 
-6.三個array都更新完畢，重覆2.直到operation_array長度為0
+ 6.三個array都更新完畢，重覆2.直到operation_array長度為0
 
-7.此時的original_array即為排序完成的數列
+ 7.此時的original_array即為排序完成的數列
 
 
 函數介紹
