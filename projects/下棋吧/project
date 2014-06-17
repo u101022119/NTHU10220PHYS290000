@@ -43,8 +43,8 @@ def showGameOverScreen(score):
 
 def showWinScreen(score):
     overFont = pygame.font.Font('freesansbold.ttf', 150)
-    drawText('You', RED, overFont, 20, 20)
-    drawText('WIN', RED, overFont, 20, 160)    
+    drawText('YOU', RED, overFont, 20, 20)
+    drawText('WIN', RED, overFont, 60, 160)    
     scoreFont = pygame.font.Font('freesansbold.ttf', 30)  
     drawText('Your Score: %s' % (score), GREEN, scoreFont, 220, 360)
     drawText('Press a key and quit', WHITE, TEXTFONT, 250, 450)
@@ -272,6 +272,7 @@ while True:
             
         if len(Gbricks)==0:
             showWinScreen(points)
+            pygame.display.update()
             waitForPlayerToPressKey2()
     
         drawScore(points, life)
