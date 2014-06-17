@@ -49,6 +49,7 @@ quick sorting
  
  1.quick_sort_one_step(original_array,operation_array,recording_array,start,end):
    這是對應步驟1.到4.的函數，還包含了畫出圖形的部分
+   first_term和last_term是因為演算方式的需要
    
    一開始當然是:
    
@@ -82,7 +83,10 @@ quick sorting
                 plt.bar(N,original_array,width=0.3,color=colors)
                 plt.show()
                 plt.pause(0.5)
-                break 
+                break
+                
+    這是跳出迴圈的方法，還有在最後畫出綠色
+                
             elif operation_array[j+first_term]>choosen_number:
                 Constant=operation_array[j+first_term]
                 operation_array[j+first_term]=operation_array[last_term-1]
@@ -98,7 +102,7 @@ quick sorting
                 plt.pause(1)
                 for p in range(array_length):
                     original_array[start+p]=operation_array[p]
-   
+     
  2.quick_sort(original_array):
    這是主函數
  1. first item
