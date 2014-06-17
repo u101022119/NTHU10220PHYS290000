@@ -134,10 +134,22 @@ quick sorting
     
  2.quick_sort(original_array):
    這是主函數，涵蓋了步驟5.6.7
-   
- 1. first item
- 2. second item
- 3. third item
+     
+    recording_array=np.copy(original_array)
+    operation_array=np.copy(original_array)
+    len(original_array)
+    start=0
+    end=len(original_array)-1
+    
+    for i in range(len(original_array)):
+        quick_sort_one_step(original_array,operation_array,recording_array,start,end)
+        print recording_array
+    
+    先設置初始值，再叫出quick_sort_one_step
+    
+    
+    
+    
 
 Note again how the actual text starts at 4 columns in (4 characters
 from the left side). Here's a code sample:
