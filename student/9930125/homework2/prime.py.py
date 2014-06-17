@@ -16,3 +16,5 @@ a = range(b+1)
 
 for i in a[2:]:
     prime(i)
+
+prime(b)
