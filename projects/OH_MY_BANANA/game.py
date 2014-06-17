@@ -637,7 +637,7 @@ while not done:
     x = pos[0]
     y = pos[1]
     title=font2.render('Mr.Gin Ron Chen',True,RED)
-    if show==1:
+    if show==-1:
         pixel=font1.render('x:'+str(int(x))+'y:'+str(int(y)),True,RED)
         screen.blit(pixel,[0,0])    
     choose1=font1.render('Game Start',True,WHITE)

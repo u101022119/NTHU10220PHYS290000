@@ -1,3 +1,5 @@
+理學院學士班 9820128 廖昱凱 
+
 Color Sorting Game
 ============
 
@@ -101,122 +103,133 @@ def GenerateSelectedBoxData(val):
     return SelectedBox
 ~~~
 
-####5.
-
-
-for the menu, I create five buttons for the players to select.
-
-
-Note that --- not considering the asterisk --- the actual text
-content starts at 4-columns in.
-
-> Block quotes are
-> written like so.
->
-> They can span multiple paragraphs,
-> if you like.
-
-Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex. "it's all in
-chapters 12--14"). Three dots ... will be converted to an ellipsis.
-
-
-
-An h2 header
-------------
-
-Here's a numbered list:
-
- 1. first item
- 2. second item
- 3. third item
-
-Note again how the actual text starts at 4 columns in (4 characters
-from the left side). Here's a code sample:
-
-    # Let me re-iterate ...
-    for i in 1 .. 10 { do-something(i) }
-
-As you probably guessed, indented 4 spaces. By the way, instead of
-indenting the block, you can use delimited blocks, if you like:
+####5.把遊戲的方格座標像素化，讓方格之間的運算簡化的函數
 
 ~~~
-define foobar() {
-    print "Welcome to flavor country!";
-}
+
+def getBoxAtPixel(x, y):
+    for boxx in range(10):
+        for boxy in range(10):
+            left, top = leftTopCoordsOfBox(boxx, boxy)
+            boxRect = pygame.Rect(left, top, BOXSIZE, BOXSIZE)
+            if boxRect.collidepoint(x, y):
+                return (boxx, boxy)
+    return (None, None)
+
 ~~~
 
-(which makes copying & pasting easier). You can optionally mark the
-delimited block for Pandoc to syntax highlight it:
+####6.像素化的方格運算過後轉換回視窗座標的函數
 
-~~~python
-import time
-# Quick, count to ten!
-for i in range(10):
-    # (but not *too* quick)
-    time.sleep(0.5)
-    print i
+~~~
+def leftTopCoordsOfBox(boxx, boxy):
+    # Convert board coordinates to pixel coordinates
+    left = boxx * BLOCKSIZE + 20
+    top = boxy * BLOCKSIZE + 20
+    return (left, top)
 ~~~
 
+####7.計算遊戲分數的函數，以方格的正確位置和玩家放置位置的座標差來做計算
+
+~~~
+def countscore(s,s2):
+    score=0
+    t=INTO2DLIST(s)
+    t2=INTO2DLIST(s2)
+    for i in range(100):
+        for j in range(100):
+            if (t[i][0],t[i][1])==(t2[j][0],t2[j][1])  and i==j:
+                score+=0
+            elif (t[i][0],t[i][1])==(t2[j][0],t2[j][1]) and i!=j:
+                score+=math.fabs(i-j)
+    return score
+~~~
+
+遊戲迴圈
+--------
 
 
-### An h3 header ###
+在遊戲的第一層迴圈繪製遊戲選單，利用一開始設定的變數來跟遊戲畫面做切換
 
-Now a nested list:
+~~~
 
- 1. First, get these ingredients:
+    windowSurface=pygame.display.set_mode((1320,440))
+    windowSurface.fill((180,45,100))
+    pygame.display.update()
+    .
+    .
+    .
+    menu=True
+    retry=False
+    play=False
+    mode1=False
+    mode2=False
+    mode3=False
+    mode4=False
+    mode5=False
+    retry=False
+~~~
+選擇遊戲模式後相對應的mode變數會轉為True，menu變數會變為False
+以防止在遊戲模式誤觸menu上的按鈕
 
-      * carrots
-      * celery
-      * lentils
+在遊戲迴圈建立在:
+~~~
+    while not retry:
+~~~
+來讓遊戲具有重置功能
 
- 2. Boil some water.
+接下來在:
+~~~
+        for event in pygame.event.get():
+            mouseClicked = False
+            if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
+                pygame.quit()
+                sys.exit()
+            elif event.type == MOUSEMOTION:
+                mousex,mousey = event.pos
+            elif event.type == MOUSEBUTTONUP:
+                mousex,mousey = event.pos
+                mouseClicked = True
+            elif event.type == KEYUP and event.key == K_r:
+                retry=True
+~~~
+設定遊戲的input，在滑鼠指標的移動跟點擊時都擷取座標，並以mouseClicked變數來做區分
 
- 3. Dump everything in the pot and follow
-    this algorithm:
+進入不同難度的遊戲時使用的迴圈大致相同，在迴圈外設定的變數不同，以繪出不同的難度
 
-        find wooden spoon
-        uncover pot
-        stir
-        cover pot
-        balance wooden spoon precariously on pot handle
-        wait 10 minutes
-        goto first step (or shut off burner when done)
+其中第三層迴圈內的:
 
-    Do not bump wooden spoon or it will fall.
+~~~
+    if not SelectedBox[boxx][boxy] and mouseClicked:
+    SelectedBox[boxx][boxy]=True
+        if (x1,y1) == (None,None) and (x2,y2) == (None,None) and finishtextRect.collidepoint(mousex,mousey)==False:
+            (x1,y1)=(boxx,boxy)
+            mouseClicked=False
+        elif (x1,y1) != (None,None) and (x2,y2) == (None,None) and finishtextRect.collidepoint(mousex,mousey)==False:
+            (x2,y2)=(boxx,boxy)
+            (X1,Y1)=(s1[x1][y1][2],s1[x1][y1][3])    #(x1,y1)is pixel while (X1,Y1)is not 
+            (X2,Y2)=(s1[x2][y2][2],s1[x2][y2][3])    #(x2,y2)is pixel while (X2,Y2)is not
+            (s1[x1][y1][2],s1[x1][y1][3])=(X2,Y2)
+            (s1[x2][y2][2],s1[x2][y2][3])=(X1,Y1)
+            drawblock([s1[x1][y1],s1[x2][y2]])
+            pygame.display.update()
+            SelectedBox[x1][y1]=False
+            SelectedBox[x2][y2]=False
+            mouseClicked=False
+            (x1,y1) = (None,None)
+            (x2,y2) = (None,None)
+~~~
+是用來交換兩次點擊的方塊的顏色資訊，並重新繪製兩個方塊
+原本是打算把整個遊戲盤面重新繪製，後來才想出只畫兩個方塊的函數
 
-Notice again how text always lines up on 4-space indents (including
-that last line which continues item 3 above). Here's a link to [a
-website](http://foo.bar). Here's a link to a [local
-doc](local-doc.html). Here's a footnote [^1].
+project製作過程
+--------
+一開始是打算製作棋盤類的遊戲，但是發現光是要搞定儲存所有方塊內資訊（座標、顏色etc.）
+就已經遇到許多困難，只好把遊戲簡化到只儲存方塊內的少數資訊
+所以產生了這個遊戲
 
-[^1]: Footnote text goes here.
+遇到的困難有:
 
-Tables can look like this:
+  * 一開始沒有想到把方塊像素化，所以位置資訊十分混亂
+  * 遊戲模式之間的切換沒有想到控制方法，所以即使畫面變了，滑鼠動到原本的按鈕還是會有效果
+  * 最後是利用list的模式改變來控制顏色資訊的交換也遇到了問題，最後產生了兩層list與三層list的轉換函數
 
-size  material      color
-----  ------------  ------------
-9     leather       brown
-10    hemp canvas   natural
-11    glass         transparent
-
-Table: Shoes, their sizes, and what they're made of
-
-(The above is the caption for the table.) Here's a definition list:
-
-apples
-  : Good for making applesauce.
-oranges
-  : Citrus!
-tomatoes
-  : There's no "e" in tomatoe.
-
-Again, text is indented 4 spaces. (Alternately, put blank lines in
-between each of the above definition list lines to spread things
-out more.)
-
-Inline math equations go in like so: $\omega = d\phi / dt$. Display
-math should get its own line and be put in in double-dollarsigns:
-
-$$I = \int \rho R^{2} dV$$
-
-Done.
