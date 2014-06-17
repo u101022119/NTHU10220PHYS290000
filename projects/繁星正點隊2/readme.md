@@ -3,20 +3,20 @@ quick sorting
 我沒有使用遞迴來寫quick sorting，我的作法是用一開始的array來進行quick sorting 的所有步驟，標記已經選過的數字，
 再用另一個一樣長的array來記已經選過的數字，以免它們被重複選到。
 就結果而言，多出了相當多的步驟......
->def quick_sort(original_array):
-我把要用來排序的array稱為original_array，它會記下每次改動後的結果
+ *def quick_sort(original_array):
+  我把要用來排序的array稱為original_array，它會記下每次改動後的結果
 
->recording_array=np.copy(original_array):
-recording_array專門用來記錄選過了哪些數字，對應'被選過數字的最終位置'的那一格會是-1，這個array長度固定
+ *recording_array=np.copy(original_array):
+ recording_array專門用來記錄選過了哪些數字，對應'被選過數字的最終位置'的那一格會是-1，這個array長度固定
 
 
-> operation_array=np.copy(original_array):
-這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
+ *operation_array=np.copy(original_array):
+  這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
 
->start和end:
-這是代表現在正在排序的operation_array是在original_array的第幾項(起訖點)，一開始start=0，end=operation_array的長度-1
+ *start和end:
+  這是代表現在正在排序的operation_array是在original_array的第幾項(起訖點)，一開始start=0，end=operation_array的長度-1
 
->quick_sort_one_step:在目前考慮的operation_array中，將目前選取的數字排到它應該在的位置，因為quick sorting的特性，這就會是它的最終位置
+ *quick_sort_one_step:在目前考慮的operation_array中，將目前選取的數字排到它應該在的位置，因為quick sorting的特性，這就會是它的最終位置
 
 0.先產生一個數字在1到200之間的original_array
 
