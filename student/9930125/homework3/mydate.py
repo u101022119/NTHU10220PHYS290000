@@ -51,12 +51,12 @@ class Date(object):
                     else:
                         break
 
-        print Date.print_date(self)
+        Date.print_date(self)
 
 date = Date()
-date.year = 2012
-date.month = 2
-date.day = 19
+date.year = float(raw_input('year: '))
+date.month = float(raw_input('month: '))
+date.day = float(raw_input('day: '))
 
-Date.increment_date(date,700)
+Date.increment_date(date,float(raw_input('increment: ')))
                     
