@@ -6,7 +6,7 @@ quick sorting
  
 基本變數介紹
 
- *def quick_sort(original_array):
+ *original_array:
   我把要用來排序的array稱為original_array，它會記下每次改動後的結果
 
  *recording_array=np.copy(original_array):
@@ -43,8 +43,9 @@ quick sorting
 
 函數介紹
 ------------
+ 0.對應步驟0，用randit(1,200,10)產生original_array
+ 1.quick_sort(original_array)
 
-Here's a numbered list:
 
  1. first item
  2. second item
