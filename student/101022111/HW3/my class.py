@@ -16,8 +16,8 @@ def move_rectangle(a,dx,dy):
 p = Point()
 p.x1 = 0
 p.y1 = 0
-p.x2 = 3
-p.y2 = 4
+p.x2 = 5
+p.y2 = 12
 print distance_between_point(p.x1,p.y1,p.x2,p.y2)
 
 box = Rectangle()

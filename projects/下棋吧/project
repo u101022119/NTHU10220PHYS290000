@@ -1,0 +1,285 @@
+import pygame, sys, random
+from pygame.locals import *
+
+# set up pygame
+pygame.init()
+mainClock = pygame.time.Clock()
+
+# set up the window
+WINDOWWIDTH = 500
+WINDOWHEIGHT = 520
+windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), 0, 32)
+pygame.display.set_caption('Breakit')
+TEXTFONT = pygame.font.Font('freesansbold.ttf', 20)
+
+# set up the colors
+GREEN       = (0, 255, 0)
+BLUE        = (0, 0, 255)
+RED         = (255, 0, 0)
+BLACK       = (0, 0, 0)
+WHITE       = (255, 255, 255)
+GRAY        = (160, 160, 160)
+DARKGRAY    = (64, 64, 64)
+
+
+def drawText(text, color, font, x, y):
+    textSurf = font.render(text, True, color)
+    textRect = textSurf.get_rect()
+    textRect.topleft = (x, y)
+    windowSurface.blit(textSurf, textRect)
+
+def drawScore(score, life):
+    BASICFONT = pygame.font.Font('freesansbold.ttf', 18)    
+    drawText('Score: %s' % (score), WHITE, BASICFONT, WINDOWWIDTH - 120, 10)    
+    drawText('Ball you left: %s' % (life), WHITE, BASICFONT, 10, 10)
+
+def showGameOverScreen(score):
+    overFont = pygame.font.Font('freesansbold.ttf', 150)
+    drawText('Game', BLACK, overFont, 20, 20)
+    drawText('Over', BLACK, overFont, 20, 160)    
+    scoreFont = pygame.font.Font('freesansbold.ttf', 30)  
+    drawText('Your Score: %s' % (score), GREEN, scoreFont, 220, 360)
+    drawText('Press a key and quit', WHITE, TEXTFONT, 250, 450)
+
+def showWinScreen(score):
+    overFont = pygame.font.Font('freesansbold.ttf', 150)
+    drawText('YOU', RED, overFont, 20, 20)
+    drawText('WIN', RED, overFont, 60, 160)    
+    scoreFont = pygame.font.Font('freesansbold.ttf', 30)  
+    drawText('Your Score: %s' % (score), GREEN, scoreFont, 220, 360)
+    drawText('Press a key and quit', WHITE, TEXTFONT, 250, 450)
+
+def terminate():
+    pygame.quit()
+    sys.exit()
+
+def waitForPlayerToPressKey1():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+            if event.type == KEYDOWN:
+                player.top = 420
+                player.left = 250
+                ball.top = 410
+                ball.left = 275
+                break
+            if event.type == KEYUP:
+                if event.key == K_ESCAPE: 
+                    terminate()
+                return   
+                
+def waitForPlayerToPressKey2():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+            if event.type == KEYDOWN:
+                terminate()
+                return 
+
+def waitForPlayerToPressKey():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE: 
+                    terminate()
+                return
+
+
+#create bricks
+BRICKHEIGHT = 15
+BRICKWIDTH = 30
+Gbricks = []
+l=25
+for i in range(15):
+    t=45
+    for j in range(16):
+        Gbricks.append(pygame.Rect(l,t,BRICKWIDTH, BRICKHEIGHT))
+        t += BRICKHEIGHT
+    l += BRICKWIDTH   
+
+points = 0
+life = 2
+      
+        
+# run the game loop
+while True:   
+    # set up movement variables  'M' for player 'm' for ball
+    MoveLeft = False
+    MoveRight = False
+    MoveUp = False
+    MoveDown = False
+
+    moveLeft = True
+    moveRight = False
+    moveUp = True
+    moveDown = False
+
+    MOVESPEED = 8
+    movespeedV = 6   # the speed of ball in y direction
+    movespeedH = 6   # the speed of ball in x direction
+       
+    START = False    # the variable to check have you served   
+       
+    player = pygame.Rect(250, 420, 60, 10)
+    ball = pygame.Rect(275, 410, 10, 10)
+    
+    while True:
+        # check for events
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+            if event.type == KEYDOWN:
+                # change the keyboard variables
+                if event.key == K_LEFT:
+                    MoveRight = False
+                    MoveLeft = True
+                if event.key == K_RIGHT:
+                    MoveLeft = False
+                    MoveRight = True
+                if event.key == K_UP:
+                    MoveDown = False
+                    MoveUp = True
+                if event.key == K_DOWN:
+                    MoveUp = False
+                    MoveDown = True    
+                if event.key == K_SPACE:             
+                    START = True                       
+            if event.type == KEYUP:
+                if event.key == K_ESCAPE:
+                    terminate()
+                if event.key == K_LEFT:
+                    MoveLeft = False
+                if event.key == K_RIGHT:
+                    MoveRight = False
+                if event.key == K_UP:
+                    MoveUp = False
+                if event.key == K_DOWN:
+                    MoveDown = False
+  
+        # draw the background onto the surface
+        windowSurface.fill(GRAY)
+
+        if START:     # the spacebar has been pressed
+            # the direction of ball
+            if moveLeft:
+                ball.left -= movespeedH
+            if moveRight:
+                ball.left += movespeedH
+            if moveUp:
+                ball.top -= movespeedV
+            if moveDown:
+                ball.top += movespeedV
+
+            # check if the ball has move out of the window
+            if ball.top < 0:
+            # ball has moved past the top
+                if moveUp:
+                    moveDown = True
+                    moveUp = False       
+            if ball.bottom > WINDOWHEIGHT:  
+            # ball has moved past the bottom  i.e. you lose a ball
+                moveLeft = False
+                moveRight = False
+                moveUP = False
+                moveDown = False
+                points -= 50
+                if points < 0:
+                    points = 0
+                life -=1               #lose one ball
+                if life == 0:          #if you have no ball, game over
+                    showGameOverScreen(points)
+                    pygame.display.update()
+                    waitForPlayerToPressKey2()
+                    break
+                else:               #if you still have a ball, press a key to continue
+                    drawText('Press a key to continue', WHITE, TEXTFONT, 200, 360)
+                    pygame.display.update()
+                    waitForPlayerToPressKey1()
+                    break
+       
+            if ball.left < 0:
+                # ball has moved past the left side
+                if moveLeft:
+                    moveLeft = False
+                    moveRight = True
+            if ball.right > WINDOWWIDTH:
+                # ball has moved past the right side
+                if moveRight:
+                    moveLeft = True
+                    moveRight = False
+      
+            # move the player
+            if MoveDown and player.bottom < WINDOWHEIGHT:
+                player.top += MOVESPEED
+            if MoveUp and player.top > 420:
+                player.top -= MOVESPEED
+            if MoveLeft and player.left > 0:
+                player.left -= MOVESPEED
+            if MoveRight and player.right < WINDOWWIDTH:
+                player.right += MOVESPEED
+            
+            # check if the ball has collide with player.
+            if player.colliderect(ball):       
+                moveUP = True
+                moveDown = False
+    
+          
+        else: 
+            # move the player and ball
+            if MoveDown and player.bottom < WINDOWHEIGHT and ball.bottom < WINDOWHEIGHT-10:
+                player.top += MOVESPEED
+                ball.top += MOVESPEED
+            if MoveUp and player.top > 420 and ball.top > 430:
+                player.top -= MOVESPEED
+                ball.top -= MOVESPEED
+            if MoveLeft and player.left > 0 and ball.left > 25:
+                player.left -= MOVESPEED
+                ball.left -= MOVESPEED
+            if MoveRight and player.right < WINDOWWIDTH and ball.right < WINDOWWIDTH-25:
+                player.right += MOVESPEED
+                ball.right += MOVESPEED              
+        
+        # draw the player and ball onto the surface
+        pygame.draw.rect(windowSurface, WHITE, player)
+        pygame.draw.rect(windowSurface, DARKGRAY, ball)
+
+        # check if the ball has intersected with any brick squares.
+        for brick in Gbricks[:]:
+            if ball.colliderect(brick):
+                Gbricks.remove(brick)
+                points += 1
+                if ball.right >= brick.left and moveRight == True and ball.top+3 <= brick.bottom and ball.bottom-3 >= brick.top:
+                    moveRight = False
+                    moveLeft = True
+                elif ball.left <= brick.right and moveRight == False and ball.top+3 <= brick.bottom and ball.bottom-3 >= brick.top:
+                    moveRight = True
+                    moveRight = False
+                if ball.top <= brick.bottom  and moveUp == True and ball.right-3 >= brick.left and ball.left+3 <= brick.right :
+                    moveUp = False
+                    moveDown = True
+                elif ball.bottom >= brick.top and moveUp == False and ball.right-3 >= brick.left and ball.left+3 <= brick.right :
+                    moveUp = True
+                    moveDown = False
+                    break
+                   
+        # draw the brick
+        for i in range(len(Gbricks)):
+            pygame.draw.rect(windowSurface, GREEN, Gbricks[i],2)
+        
+        # check if you win or not    
+        if len(Gbricks)==0:
+            showWinScreen(points)
+            pygame.display.update()
+            waitForPlayerToPressKey2()
+    
+        drawScore(points, life)
+        
+        pygame.display.update()
+        mainClock.tick(30)
+        
+
+        

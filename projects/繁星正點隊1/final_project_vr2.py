@@ -103,9 +103,6 @@ def getBoxAtPixel(x, y):
                 return (boxx, boxy)
     return (None, None)
 
-def drawHighlightBox(boxx, boxy):
-    left, top = leftTopCoordsOfBox(boxx, boxy)
-    pygame.draw.rect(windowSurface,BLUE, (left, top, BLOCKSIZE, BLOCKSIZE), 4)
         
 def INTO2DLIST(s):
     h=[]

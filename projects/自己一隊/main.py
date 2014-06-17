@@ -93,59 +93,71 @@ def banishY(x,y,bgc,bonus):
         changeBonus=True
 
 def check():
+    global mode
     rec=False
-    for y in range(maxY):
-        bgc=1
-        wdc=1
-        wcc=1
-        for x in range(maxX)[:-1]:
-            if bricks[x][y].bgcolor==bricks[x+1][y].bgcolor:
-                bgc+=1
-            else:
-                if bgc>=3 and bricks[x][y]!=noBrick:
-                    banishX(x,y,bgc,bricks[x][y].bgcolor==bonusBrick.word)
-                    rec=True
-                bgc=1
-                
-            if bricks[x][y].word==bricks[x+1][y].word:
-                wdc+=1
-            else:
-                if wdc>=3 and bricks[x][y]!=noBrick:
-                    banishX(x,y,wdc,bricks[x][y].word==bonusBrick.bgcolor)
-                    rec=True
-                wdc=1
-        if bgc>=3 and bricks[maxX-1][y]!=noBrick:
-            banishX(maxX-1,y,bgc,bricks[maxX-1][y].bgcolor==bonusBrick.word)
-            rec=True
-        if wdc>=3 and bricks[maxX-1][y]!=noBrick:
-            banishX(maxX-1,y,wdc,bricks[maxX-1][y].word==bonusBrick.bgcolor)
-            rec=True
-    for x in range(maxX):
-        bgc=1
-        wdc=1
-        wcc=1
-        for y in range(maxY)[:-1]:
-            if bricks[x][y].bgcolor==bricks[x][y+1].bgcolor:
-                bgc+=1
-            else:
-                if bgc>=3 and bricks[x][y]!=noBrick:
-                    banishY(x,y,bgc,bricks[x][y].bgcolor==bonusBrick.word)
-                    rec=True
-                bgc=1
-
-            if bricks[x][y].word==bricks[x][y+1].word:
-                wdc+=1
-            else:
-                if wdc>=3 and bricks[x][y]!=noBrick:
-                    banishY(x,y,wdc,bricks[x][y].word==bonusBrick.bgcolor)
-                    rec=True
-                wdc=1
-        if bgc>=3 and bricks[x][maxY-1]!=noBrick:
-            banishY(x,maxY-1,bgc,bricks[x][maxY-1].bgcolor==bonusBrick.word)
-            rec=True
-        if wdc>=3 and bricks[x][maxY-1]!=noBrick:
-            banishY(x,maxY-1,wdc,bricks[x][maxY-1].word==bonusBrick.bgcolor)
-            rec=True
+    if mode==0:
+        for y in range(maxY):
+            bgc=1
+            wdc=1
+            wcc=1
+            for x in range(maxX)[:-1]:
+                if bricks[x][y].bgcolor==bricks[x+1][y].bgcolor:
+                    bgc+=1
+                else:
+                    if bgc>=3 and bricks[x][y]!=noBrick:
+                        banishX(x,y,bgc,bricks[x][y].bgcolor==bonusBrick.word)
+                        rec=True
+                    bgc=1
+                    
+                if bricks[x][y].word==bricks[x+1][y].word:
+                    wdc+=1
+                else:
+                    if wdc>=3 and bricks[x][y]!=noBrick:
+                        banishX(x,y,wdc,bricks[x][y].word==bonusBrick.bgcolor)
+                        rec=True
+                    wdc=1
+            if bgc>=3 and bricks[maxX-1][y]!=noBrick:
+                banishX(maxX-1,y,bgc,bricks[maxX-1][y].bgcolor==bonusBrick.word)
+                rec=True
+            if wdc>=3 and bricks[maxX-1][y]!=noBrick:
+                banishX(maxX-1,y,wdc,bricks[maxX-1][y].word==bonusBrick.bgcolor)
+                rec=True
+        for x in range(maxX):
+            bgc=1
+            wdc=1
+            wcc=1
+            for y in range(maxY)[:-1]:
+                if bricks[x][y].bgcolor==bricks[x][y+1].bgcolor:
+                    bgc+=1
+                else:
+                    if bgc>=3 and bricks[x][y]!=noBrick:
+                        banishY(x,y,bgc,bricks[x][y].bgcolor==bonusBrick.word)
+                        rec=True
+                    bgc=1
+    
+                if bricks[x][y].word==bricks[x][y+1].word:
+                    wdc+=1
+                else:
+                    if wdc>=3 and bricks[x][y]!=noBrick:
+                        banishY(x,y,wdc,bricks[x][y].word==bonusBrick.bgcolor)
+                        rec=True
+                    wdc=1
+            if bgc>=3 and bricks[x][maxY-1]!=noBrick:
+                banishY(x,maxY-1,bgc,bricks[x][maxY-1].bgcolor==bonusBrick.word)
+                rec=True
+            if wdc>=3 and bricks[x][maxY-1]!=noBrick:
+                banishY(x,maxY-1,wdc,bricks[x][maxY-1].word==bonusBrick.bgcolor)
+                rec=True
+    else:
+        for y in range(maxY):
+            b=True
+            for x in range(maxX):
+                if bricks[x][y]==noBrick:
+                    b=False
+                    break
+            if b:
+                banishX(0,y,maxX,False)
+                rec=True
     if rec:
         global BANISH
         global status
@@ -204,7 +216,10 @@ def newBrick():
         (2,(1,2),(2,2)),
         (1,(2,2))
         )
-    i=int(random()*9)
+    if mode==0:
+        i=int(random()*9)
+    else:
+        i=int(random()*5)
     for j in range(nbList[i][0]):
         controlBricks[nbList[i][j+1][0]][nbList[i][j+1][1]]=Brick(int(random()*4),0,int(random()*4))
 #    controlBricks[2][3]=Brick(0,0,0)
@@ -215,7 +230,9 @@ def newBrick():
 noBrick=Brick(-1,-1,-1)
 
 fin=open("score.txt","rt")
-hiScore=int(fin.read())
+hiScore=[]
+hiScore.append(int(fin.readline()))
+hiScore.append(int(fin.readline()))
 fin.close()
 
 maxX=8
@@ -246,6 +263,8 @@ size = (416, 544)
 screen = pygame.display.set_mode(size)
 
 
+mode=0
+changeMode=False
 done = False
 while not done:
     bricks=[]
@@ -269,6 +288,11 @@ while not done:
     score=0
     changeBonus=False
     
+    if changeMode:
+        if mode==0:mode=1
+        else: mode=0
+        changeMode=False
+    
     ftime=0
     tpf=24
     retry =False
@@ -282,6 +306,9 @@ while not done:
                     done=True
                 if event.key == pygame.K_r:
                     retry=True
+                if event.key == pygame.K_m:
+                    retry=True
+                    changeMode=True
                 if  status==PAUSE:
                     if event.key == pygame.K_p:
                         status=PLAY
@@ -323,7 +350,7 @@ while not done:
             for y in range(5):
                 controlBricks[x][y].show(control[0]+x-2,control[1]+y-2)
         for x in range(5):
-            n=(hiScore/(10**x)) %10
+            n=(hiScore[mode]/(10**x)) %10
             screen.blit(timer,(400-16-x*20,33),(n*16,0,16,33))
         for x in range(5):
             n=(score/(10**x)) %10
@@ -354,10 +381,12 @@ while not done:
                     bonusBrick=Brick(int(random()*4),0,int(random()*4))
                     changeBonus=False
 #=================== End of While 2 ===========================================
-    if score>hiScore:
-        hiScore=score
+    if score>hiScore[mode]:
+        hiScore[mode]=score
 fout=open("score.txt","wt")
-fout.write(format(hiScore))
+fout.write(format(hiScore[0]))
+fout.write('\n')
+fout.write(format(hiScore[1]))
 fout.close()
 
 pygame.quit()

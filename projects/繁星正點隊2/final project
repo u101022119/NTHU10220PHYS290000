@@ -88,13 +88,13 @@ def quick_sort(original_array):
             close()
             break
     print original_array
-test0=randint(1,200,10)
-test=np.copy(test0)
-print test
-N=np.zeros(len(test))
-for n in range(len(test)):
+test=randint(1,200,10)
+original_array=np.copy(test)
+print original_array
+N=np.zeros(len(original_array))
+for n in range(len(original_array)):
     N[n]=n    
-plt.bar(N,test,width=0.3,color='b')
+plt.bar(N,original_array,width=0.3,color='b')
 plt.pause(1)
 plt.show()
-quick_sort(test)
+quick_sort(original_array)
