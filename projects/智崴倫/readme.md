@@ -31,7 +31,9 @@
      1 . 選擇介面時按下不對的按鍵會有不同的音效
      2 . 遊戲中按錯時也會有獨自的音效
      3 . 按ESC也可離開遊戲
-     4 . 遊戲圖片等完整內容請到dropbox下載，網址如下提供
-     5 . 本期末報告亦有提供輸出完成的exe檔，於dropbox下載後解壓縮進入dist資料夾點擊"final.exe"即可
-     6 . https://www.dropbox.com/s/5r3m9c15ugcmk61/final.rar
+     4 . 每種難度共有3種對應老師說話習慣的評語，共9種
+     5 . 本遊戲提供一個完整可循環不當機無bug的環境，可順利在電腦中執行
+     6 . 遊戲圖片等完整內容請到dropbox下載，網址如下提供
+     7 . 本期末報告亦有提供輸出完成的exe檔，於dropbox下載後解壓縮進入dist資料夾點擊"final.exe"即可
+     8 . https://www.dropbox.com/s/5r3m9c15ugcmk61/final.rar
      
