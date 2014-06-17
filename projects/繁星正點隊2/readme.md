@@ -38,7 +38,7 @@ quick sorting
 
  6.在新的original_array上，由新的start和end產生新的operation_array
 
- 7.三個array都更新完畢，重覆2.到6.，直到operation_array長度為0，畫最終圖形
+ 7.三個array都更新完畢，重覆2.到6.，直到無法找到合適的新start和end為止，畫最終圖形
 
  *此時的original_array即為排序完成的數列
 
@@ -147,7 +147,7 @@ quick sorting
         quick_sort_one_step(original_array,operation_array,recording_array,start,end)
         print recording_array
     
-  進到步驟5.用二個迴圈starrt和end的值(這是多出一般的寫法的步驟...):
+  進到步驟5.用二個迴圈，考慮recording_array的值，選取新的starrt和end(這是多出一般的寫法的步驟...):
   
     for find_start in range(0,len(original_array)):            
             if find_start==0 and recording_array[0]!=-1:
@@ -171,7 +171,19 @@ quick sorting
      W=np.copy(recording_array)
         operation_array=W[start:end+1]
 
-  因為一開始的迴圈的關係，會一直重覆2.到6.，跳出迴圈的條件是operation_array的長度為零。跳出後畫出最後的圖:
+  因為一開始的迴圈的關係，會一直重覆2.到6.，跳出迴圈的條件是operation_array的唯一一項為-1(即是無法找到合適的新start和end時 )。跳出後畫出最後的圖:
+  
+    if operation_array[0]==-1:                
+            clf()
+            N=np.zeros(len(original_array))
+            for n in range(len(original_array)):
+                N[n]=n
+            plt.bar(N,original_array,width=0.3,color='r')
+            plt.show()
+            plt.pause(5)
+            close()
+            break
+    print original_array
 
 As you probably guessed, indented 4 spaces. By the way, instead of
 indenting the block, you can use delimited blocks, if you like:
