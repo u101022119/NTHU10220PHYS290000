@@ -102,7 +102,7 @@ quick sorting
                 plt.pause(1)
                 for p in range(array_length):
                     original_array[start+p]=operation_array[p]
-     
+     我交換的方式是如果前面的第K項比選取數字大，就將它移到選取數字的位置，選取數字進一格，而在選取數字前面的那一項(如果還有的話)，則是移到原來第K項所在的位置，大致上是三項作交換，而這時又必須從第K項開始檢查(而不是K+1項)，所以才用first_term和last_term來設定範圍
  2.quick_sort(original_array):
    這是主函數
  1. first item
