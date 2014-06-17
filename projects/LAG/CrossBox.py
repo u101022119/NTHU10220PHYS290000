@@ -30,7 +30,7 @@ BLACK = (0,0,0)
 CYAN = (0,255,255)
 YELLOW = (255,255,0)
 WHITE = (255,255,255)
-ORANGE = (255,100,0)
+DEEPBLUE = (130,75,255)
 RED = (255,0,0)
 GREEN = (0,255,0)
 PURPLE = (255,0,255)
@@ -42,13 +42,16 @@ LINECOLOR = (242,156,73)
 TEXTCOLOR = (115,212,236)
 TIMECOLOR = (141,106,243)
 
-ALLCOLORS = (RED, GREEN, WHITE, YELLOW, ORANGE, PURPLE, CYAN)
+ALLCOLORS = (RED, GREEN, WHITE, YELLOW, DEEPBLUE, PURPLE, CYAN)
 
 con = sqlite3.connect('crossbox.db3')
 cur = con.cursor()
-cur.execute("select count(*) from sqlite_master where type='table' and name='ranking'")
+cur.execute("select count(*) from sqlite_master where type='table' and name='rankingoftime'")
 if cur.fetchone()[0] == 0:
-	cur.execute("create table ranking(score,name)")
+	cur.execute("create table rankingoftime(score,name)")
+cur.execute("select count(*) from sqlite_master where type='table' and name='rankingofzen'")
+if cur.fetchone()[0] == 0:
+	cur.execute("create table rankingofzen(score,name)")
 
 
 def main():#game loop
@@ -108,12 +111,12 @@ def main():#game loop
 			if boxX == None and boxY == None:
 				if mouseClicked:
 					if RESTART_RECT.collidepoint(event.pos):
-						cur.execute("insert into ranking values("+str(score)+",'unknown')")
+						cur.execute("insert into rankingoftime values("+str(score)+",'unknown')")
 						con.commit()
 						InitializeGmae()
 					elif MENU_RECT.collidepoint(event.pos):
 						mode = MODEMENU
-						cur.execute("insert into ranking values("+str(score)+",'unknown')")
+						cur.execute("insert into rankingoftime values("+str(score)+",'unknown')")
 						con.commit()
 			elif boxX != None and boxY != None:
 				drawHighlightBox(boxX,boxY)
@@ -122,7 +125,7 @@ def main():#game loop
 			time -= 1
 			if time <= 0:
 				mode = MODEMENU
-				cur.execute("insert into ranking values("+str(score)+",'unknown')")
+				cur.execute("insert into rankingoftime values("+str(score)+",'unknown')")
 				con.commit()
 		elif mode == MODEZEN:
 			drawBoard(mainBoard, remainedBoxes)
@@ -141,11 +144,11 @@ def main():#game loop
 			if boxX == None and boxY == None:
 				if mouseClicked:
 					if RESTART_RECT.collidepoint(event.pos):
-						cur.execute("insert into ranking values("+str(score)+",'unknown')")
+						cur.execute("insert into rankingofzen values("+str(score)+",'unknown')")
 						con.commit()
 						InitializeGmae()
 					elif MENU_RECT.collidepoint(event.pos):
-						cur.execute("insert into ranking values("+str(score)+",'unknown')")
+						cur.execute("insert into rankingofzen values("+str(score)+",'unknown')")
 						con.commit()
 						mode = MODEMENU
 			elif boxX != None and boxY != None:
@@ -285,9 +288,21 @@ def makeText(text, color, bgcolor, top, left, size):
 	return (textSurf, textRect)
 
 def drawHighestScore():
-	cur.execute("select * from ranking order by score desc limit 1")
-	highest = cur.fetchone()[0]
-	HIGH_SURF, HIGH_RECT = makeText('highest score = '+str(highest), TEXTCOLOR, BACKGROUNDCOLOR,0,0,BASICSIZE)
+	cur.execute("select * from rankingoftime order by score desc limit 1")
+	item = cur.fetchone()
+	if item is not None:
+		highest = item[0]
+	else:
+		highest = 0
+	HIGH_SURF, HIGH_RECT = makeText('highest score of TIME = '+str(highest), TEXTCOLOR, BACKGROUNDCOLOR,0,0,BASICSIZE)
+	DISPLAYSURF.blit(HIGH_SURF, HIGH_RECT)
+	cur.execute("select * from rankingofzen order by score desc limit 1")
+	item = cur.fetchone()
+	if item is not None:
+		highest = item[0]
+	else:
+		highest = 0
+	HIGH_SURF, HIGH_RECT = makeText('highest score of ZEN = '+str(highest), TEXTCOLOR, BACKGROUNDCOLOR,0,30,BASICSIZE)
 	DISPLAYSURF.blit(HIGH_SURF, HIGH_RECT)
 
 def CheckForTerminate(event):
