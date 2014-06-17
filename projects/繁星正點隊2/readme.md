@@ -134,6 +134,8 @@ quick sorting
     
  2.quick_sort(original_array):
    這是主函數，涵蓋了步驟5.6.7
+   
+   首先設置初始值，再叫出quick_sort_one_step
      
     recording_array=np.copy(original_array)
     operation_array=np.copy(original_array)
@@ -145,11 +147,23 @@ quick sorting
         quick_sort_one_step(original_array,operation_array,recording_array,start,end)
         print recording_array
     
-    先設置初始值，再叫出quick_sort_one_step
+    進到步驟5.用二個迴圈starrt和end的值(這是多出一般的寫法的步驟...):
     
+    for find_start in range(0,len(original_array)):            
+            if find_start==0 and recording_array[0]!=-1:
+                start=0
+                break
+            elif find_start!=0 and recording_array[find_start-1]==-1 and recording_array[find_start]!=-1:
+                start=find_start
+                break
     
-    
-    
+    for find_end in range(0,len(original_array)):
+            if recording_array[find_end]!=-1:  
+                if find_end!=len(original_array)-1 and recording_array[find_end+1]==-1:
+                    end=find_end
+                    break
+                elif find_end==len(original_array)-1 and recording_array[find_end]!=-1:
+                    end=find_end
 
 Note again how the actual text starts at 4 columns in (4 characters
 from the left side). Here's a code sample:
