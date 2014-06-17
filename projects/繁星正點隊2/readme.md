@@ -73,6 +73,7 @@ quick sorting
    綠色的部分要在每一個步驟中畫，所以不會放在這裡
    
    接著是步驟1.2.3.:
+   
        for j in range(array_length):       
             if j+first_term>=last_term:
                 clf()
