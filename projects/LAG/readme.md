@@ -8,14 +8,21 @@ This is a game made in python.
 
 
 How to Play:
-
+------------
 > Click on a blank space.
+
 > If the color matches the nearest heighboring 
-> boxes, vertically or horizontally,
-> from the clicked space, you get the matching boxes.
-> 
-> You get 1 point for each box.
-> Each incorrect click reduces your time.
+
+> boxes, vertically or horizontally, 
+
+> from the clicked space, you get the matching boxes. 
+
+
+  
+  
+You get 1 point for each box.  
+
+Penalty: Each incorrect click reduces your time.
 
 
 Play Mode
