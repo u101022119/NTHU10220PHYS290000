@@ -32,21 +32,35 @@ quick sorting
 
  3.在2.中每一次的置換完畢後，都用新的operation_array來改寫原來的original_array，用operation_array的每一項的位置在加上此時的start  的值就可以正確的取代
 
- 4.結束2.後在recording_array之中，被選數字的最終相對位置上(看它最後是在第幾項)標記-1(以免被選到)，接著按照新的recording_array，從 左邊開始，選出新的合適的start和end
+ 4.結束2.後在recording_array之中，被選數字的最終相對位置上(看它最後是在第幾項)標記-1(以免被選到)，
+ 
+ 5.接著按照新的recording_array，從 左邊開始，選出新的合適的start和end
 
- 5.在新的original_array上，由新的start和end產生新的operation_array
+ 6.在新的original_array上，由新的start和end產生新的operation_array
 
- 6.三個array都更新完畢，重覆2.直到operation_array長度為0
+ 7.三個array都更新完畢，重覆2.直到operation_array長度為0
 
- 7.此時的original_array即為排序完成的數列
+ *此時的original_array即為排序完成的數列
 
 
 函數介紹
 ------------
  0.對應步驟0，用randit(1,200,10)產生original_array
- 1.quick_sort(original_array)
-
-
+ 
+ 1.quick_sort_one_step(original_array,operation_array,recording_array,start,end):
+   這是對應步驟1.到4.的函數，還包含了畫出圖形的部分
+   
+   一開始當然是:
+   
+   array_length=len(operation_array)
+        last_term=array_length-1
+        first_term=0
+        choosen_number=operation_array[last_term]
+ 
+   接著是畫出圖形的部分:
+ 
+ 2.quick_sort(original_array):
+   這是主函數
  1. first item
  2. second item
  3. third item
