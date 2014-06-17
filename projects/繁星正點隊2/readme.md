@@ -12,14 +12,15 @@ quick sorting
  *recording_array=np.copy(original_array):
  recording_array專門用來記錄選過了哪些數字，對應'被選過數字的最終位置'的那一格會是-1，這個array長度固定
 
-
  *operation_array=np.copy(original_array):
   這是代表'當前進行排列'的子序列，長度會改變，最大當然就是一開始的長度
+  
+ *choosen_number:目前選取的數字，設定是operation_array的最後一項
 
  *start和end:
   這是代表現在正在排序的operation_array是在original_array的第幾項(起訖點)，一開始start=0，end=operation_array的長度-1
 
- *quick_sort_one_step:在目前考慮的operation_array中，將目前選取的數字排到它應該在的位置，因為quick  sorting的特性，這就會是它的最終位置
+ *quick_sort_one_step:在目前考慮的operation_array中，將目前選取的數字(choosen_number)排到它應該在的位置，因為quick  sorting的特性，這就會是它的最終位置
  
 步驟介紹
 
@@ -73,7 +74,7 @@ quick sorting
    綠色的部分要在每一個步驟中畫，所以不會放在這裡
    
    接著是步驟1.2.3.:
-   
+       choosen_number=operation_array[last_term]
        for j in range(array_length):       
             if j+first_term>=last_term:
                 clf()
