@@ -51,6 +51,6 @@ class Hand(Deck):
             
 deck = Deck()
 hand = Hand()
-for i in range(52):
+for i in range(2):
     print hand.cards[i]
 
