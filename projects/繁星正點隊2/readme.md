@@ -23,22 +23,21 @@ quick sorting
  
 步驟介紹
 
- 0.先產生一個數字在1到200之間的original_array
+ 0.先產生一個數字在1到200之間的original_array，畫一開始的圖形
 
- 1.基本的想法是，一開始先選取original_array的最後一項，此時operation_array=original_array
- (因為start=0，end=operation_array的長度-1)
+ 1.基本的想法是，一開始先選取original_array的最後一項，此時operation_array=original_array，畫圖
 
  2.使用quick_sort_one_step對最後一項作排序
 
- 3.在2.中每一次的置換完畢後，都用新的operation_array來改寫原來的original_array，用operation_array的每一項的位置在加上此時的start  的值就可以正確的取代
+ 3.在2.中每一次的置換完畢後，都用新的operation_array來改寫原來的original_array，並畫圖，用operation_array的每一項的位置在加上此時的start  的值就可以正確的取代
 
- 4.結束2.後在recording_array之中，被選數字的最終相對位置上(看它最後是在第幾項)標記-1(以免被選到)，
+ 4.結束2.後在recording_array之中，被選數字的最終相對位置上(看它最後是在第幾項)標記-1(以免被選到)，畫圖
  
  5.接著按照新的recording_array，從 左邊開始，選出新的合適的start和end
 
  6.在新的original_array上，由新的start和end產生新的operation_array
 
- 7.三個array都更新完畢，重覆2.直到operation_array長度為0
+ 7.三個array都更新完畢，重覆2.直到operation_array長度為0，畫最終圖形
 
  *此時的original_array即為排序完成的數列
 
@@ -52,13 +51,51 @@ quick sorting
    
    一開始當然是:
    
-   array_length=len(operation_array)
-        last_term=array_length-1
-        first_term=0
-        choosen_number=operation_array[last_term]
+     array_length=len(operation_array)
+          last_term=array_length-1
+          first_term=0
+          choosen_number=operation_array[last_term]
  
    接著是畫出圖形的部分:
- 
+     colors=[]
+        N=np.zeros(len(original_array))
+        for n in range(len(original_array)):
+            N[n]=n
+        for set_colors in range(len(original_array)):
+            if recording_array[set_colors]==-1:
+                colors.append('r')   
+            elif start<=set_colors and end>=set_colors:
+                colors.append('y')
+            else:
+                colors.append('b')
+   綠色的部分要在每一個步驟中畫，所以不會放在這裡
+   
+   
+   接著是步驟1.2.3.:
+     for j in range(array_length):       
+            if j+first_term>=last_term:
+                clf()
+                colors[start+last_term]='g'
+                plt.bar(N,original_array,width=0.3,color=colors)
+                plt.show()
+                plt.pause(0.5)
+                break 
+            elif operation_array[j+first_term]>choosen_number:
+                Constant=operation_array[j+first_term]
+                operation_array[j+first_term]=operation_array[last_term-1]
+                operation_array[last_term-1]=operation_array[last_term]
+                operation_array[last_term]=Constant
+                colors[start+last_term]='g'
+                last_term=last_term-1
+                first_term=first_term-1
+                clf()   
+                plt.bar(N,original_array,width=0.3,color=colors)
+                colors[start+last_term+1]='y'
+                plt.show()
+                plt.pause(1)
+                for p in range(array_length):
+                    original_array[start+p]=operation_array[p]
+   
  2.quick_sort(original_array):
    這是主函數
  1. first item
