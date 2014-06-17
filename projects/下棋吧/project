@@ -214,7 +214,7 @@ while True:
             if life == 0:
                 break     
             # move the player
-            if MoveDown and player.bottom < WINDOWHEIGHT:
+            if MoveDown and player.bottom < WINDOWHEIGHT-5:
                 player.top += MOVESPEED
             if MoveUp and player.top > 420:
                 player.top -= MOVESPEED
@@ -230,7 +230,7 @@ while True:
           
         else: 
             # move the player and ball
-            if MoveDown and player.bottom < WINDOWHEIGHT and ball.bottom < WINDOWHEIGHT-10:
+            if MoveDown and player.bottom < WINDOWHEIGHT-5 and ball.bottom < WINDOWHEIGHT-10:
                 player.top += MOVESPEED
                 ball.top += MOVESPEED
             if MoveUp and player.top > 420 and ball.top > 430:
