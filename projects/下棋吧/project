@@ -224,7 +224,7 @@ while True:
                 player.right += MOVESPEED
             
             if player.colliderect(ball):       
-                moveUP = True
+                moveUp = True
                 moveDown = False
     
           
