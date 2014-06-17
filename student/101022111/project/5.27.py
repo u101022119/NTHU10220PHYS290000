@@ -66,146 +66,155 @@ def showStartScreen():
 def terminate():
     pygame.quit()
     sys.exit()
-class chess():    
-    #  white
-        
-    white_king = {'rect':pygame.Rect(270, 30, 40, 40)}
-    white_king.image=pygame.image.load('WKING.png')
-    white_king.image.midtop=(290,50)
+
+white_king = [{'x':290 ,'y': 50}] 
+white_king.image=pygame.image.load('WKING.png')
+
     
-    white_queen = {'rect':pygame.Rect(220, 30, 40, 40)}
-    white_queen.image=pygame.image.load('WQUEEN.png')
-    white_queen.image.midtop=(230,50)
-    
-    white_bishop1 = {'rect':pygame.Rect(150, 30, 40, 40)}
-    white_bishop1.image=pygame.image.load('WBISHOP.png')
-    white_bishop1.image.midtop=(170,50)
+white_queen = [{'x':230 ,'y': 50}] 
+white_queen.image=pygame.image.load('WQUEEN.png')
+white_queen.image.midtop=(230,50)
+
+white_bishop1 = [{'x':170, 'y': 50}] 
+white_bishop1.image=pygame.image.load('WBISHOP.png')
+white_bishop1.image.midtop=(170,50)
    
-    white_bishop2 = {'rect':pygame.Rect(320, 30, 40, 40)}
+    white_bishop2 = [{'x':350 ,'y': 50}] 
     white_bishop2.image=pygame.image.load('WBISHOP.png')
     white_bishop2.image.midtop=(350,50)
     
-    white_rock1 = {'rect':pygame.Rect(30, 30, 40, 40)}
+    white_rock1 = [{'x':50 ,'y': 50}] 
     white_rock1.image=pygame.image.load('WROCK.png')
     white_rock1.image.midtop=(50,50)
     
-    white_rock2 = {'rect':pygame.Rect(450, 30, 40, 40)}
+    white_rock2 = [{'x':470 ,'y': 50}] 
     white_rock2.image=pygame.image.load('WROCK.png')
     white_rock2.image.midtop=(470,50)
     
-    white_kinght1 = {'rect':pygame.Rect(90, 30, 40, 40)}
+    white_kinght1 = [{'x':110 ,'y': 50}] 
     white_kinght1.image=pygame.image.load('WKNIGHT.png')
     white_kinght1.image.midtop=(110,50)
     
-    white_kinght2 = {'rect':pygame.Rect(390, 30, 40, 40)}
+    white_kinght2 = [{'x':410 ,'y': 50}] 
     white_kinght2.image=pygame.image.load('WKNIGHT.png')
     white_kinght2.image.midtop=(410,50)
     
-    white_soldier1 = {'rect':pygame.Rect(30, 90, 40, 40)}
+    white_soldier1 = [{'x':50 ,'y': 110}] 
     white_soldier1.image=pygame.image.load('WSOLDIER.png')
     white_soldier1.image.midtop=(50,110)
     
-    white_soldier2 = {'rect':pygame.Rect(90, 90, 40, 40)}
+    white_soldier2 = [{'x':110, 'y': 110}] 
     white_soldier2.image=pygame.image.load('WSOLDIER.png')
     white_soldier2.image.midtop=(110,110)
     
-    white_soldier3 = {'rect':pygame.Rect(150, 90, 40, 40)}
+    white_soldier3 = [{'x':170, 'y': 110}] 
     white_soldier3.image=pygame.image.load('WSOLDIER.png')
     white_soldier3.image.midtop=(170,110)
    
-    white_soldier4 = {'rect':pygame.Rect(210, 90, 40, 40)}   
+    white_soldier4 =[{'x':230, 'y': 110}] 
     white_soldier4.image=pygame.image.load('WSOLDIER.png')
     white_soldier4.image.midtop=(230,110)
     
-    white_soldier5 = {'rect':pygame.Rect(270, 90, 40, 40)}
+    white_soldier5 = [{'x':290, 'y': 110}] 
     white_soldier5.image=pygame.image.load('WSOLDIER.png')
     white_soldier5.image.midtop=(290,110)    
     
-    white_soldier6 = {'rect':pygame.Rect(330, 90, 40, 40)}    
+    white_soldier6 = [{'x':350, 'y': 110}] 
     white_soldier6.image=pygame.image.load('WSOLDIER.png')
     white_soldier6.image.midtop=(350,110)
     
-    white_soldier7 = {'rect':pygame.Rect(390, 90, 40, 40)}   
+    white_soldier7 = [{'x':410, 'y': 110}] 
     white_soldier7.image=pygame.image.load('WSOLDIER.png')
     white_soldier7.image.midtop=(410,110)
     
-    white_soldier8 = {'rect':pygame.Rect(450, 90, 40, 40)}    
+    white_soldier8 = [{'x':470 ,'y': 110}] 
     white_soldier8.image=pygame.image.load('WSOLDIER.png')
     white_soldier8.image.midtop=(470,110)
     # black
       
-    black_king = {'rect':pygame.Rect(270, 450, 40, 40)}
+    black_king = [{'x':290 ,'y': 470}]
     black_king.image=pygame.image.load('BKING.png')
     black_king.image.midtop=(290,470)
     
-    black_queen = {'rect':pygame.Rect(210, 450, 40, 40)}
+    black_queen = [{'x':230 ,'y': 470}]
     black_queen.image=pygame.image.load('BQUEEN.png')
     black_queen.image.midtop=(230,470)
        
-    black_bishop1 = {'rect':pygame.Rect(150, 450, 40, 40)}    
+    black_bishop1 = [{'x':170, 'y': 470}]
     black_bishop1.image=pygame.image.load('BBISHOP.png')
     black_bishop1.image.midtop=(170,470) 
     
-    black_bishop2 = {'rect':pygame.Rect(330, 450, 40, 40)}
+    black_bishop2 = [{'x':350 ,'y': 470}]
     black_bishop2.image=pygame.image.load('BBISHOP.png')
     black_bishop2.image.midtop=(350,470)
     
-    black_rock1 = {'rect':pygame.Rect(30, 450, 40, 40)}
+    black_rock1 = [{'x':50 ,'y': 470}]
     black_rock1.image=pygame.image.load('BROCK.png')
     black_rock1.image.midtop=(50,470)
     
-    black_rock2 = {'rect':pygame.Rect(450, 450, 40, 40)}
+    black_rock2 = [{'x':470 ,'y': 470}]
     black_rock2.image=pygame.image.load('BROCK.png')
     black_rock2.image.midtop=(470,470)
    
-    black_kinght1 = {'rect':pygame.Rect(90, 450, 40, 40)}
+    black_kinght1 = [{'x':110 ,'y': 470}]
     black_kinght1.image=pygame.image.load('BKNIGHT.png')
     black_kinght1.image.midtop=(110,470)
     
-    black_kinght2 = {'rect':pygame.Rect(390, 450, 40, 40)}
+    black_kinght2 = [{'x':410 ,'y': 470}]
     black_kinght2.image=pygame.image.load('BKNIGHT.png')
     black_kinght2.image.midtop=(410,470)
     
-    black_soldier1 = {'rect':pygame.Rect(30, 390, 40, 40)}
+    black_soldier1 = [{'x':50 ,'y': 410}]
     black_soldier1.image=pygame.image.load('BSOLDIER.png')
     black_soldier1.image.midtop=(50,410)
    
-    black_soldier2 = {'rect':pygame.Rect(90, 390, 40, 40)}
+    black_soldier2 =  [{'x':110, 'y': 410}]
     black_soldier2.image=pygame.image.load('BSOLDIER.png')
     black_soldier2.image.midtop=(110,410)
     
-    black_soldier3 = {'rect':pygame.Rect(150, 390, 40, 40)}
+    black_soldier3 = [{'x':170, 'y': 410}]
     black_soldier3.image=pygame.image.load('BSOLDIER.png')
     black_soldier3.image.midtop=(170,410)
     
-    black_soldier4 = {'rect':pygame.Rect(210, 390, 40, 40)}
+    black_soldier4 =  [{'x':230, 'y': 410}]
     black_soldier4.image=pygame.image.load('BSOLDIER.png')
     black_soldier4.image.midtop=(230,410)
     
-    black_soldier5 = {'rect':pygame.Rect(270, 390, 40, 40)}
+    black_soldier5 = [{'x':290 ,'y': 410}]
     black_soldier5.image=pygame.image.load('BSOLDIER.png')
     black_soldier5.image.midtop=(290,410)
    
-    black_soldier6 = {'rect':pygame.Rect(330, 390, 40, 40)}
+    black_soldier6 = [{'x':350 ,'y': 410}]
     black_soldier6.image=pygame.image.load('BSOLDIER.png')
     black_soldier6.image.midtop=(350,410)
     
-    black_soldier7 = {'rect':pygame.Rect(390, 390, 40, 40)}
+    black_soldier7 = [{'x':410, 'y': 410}]
     black_soldier7.image=pygame.image.load('BSOLDIER.png')
     black_soldier7.image.midtop=(410,410)
     
-    black_soldier8 = {'rect':pygame.Rect(450, 390, 40, 40)}
+    black_soldier8 = [{'x':470 ,'y': 410}]
     black_soldier8.image=pygame.image.load('BSOLDIER.png')
     black_soldier8.image.midtop=(470,410)
 # Game's main point    
 def runGame():
-    for chess in chess[:]:
-        if eat(chess ['rect'], chess ['rect']):
-            chess.remove(chess)
-def choisechess(chess):    
-    for event in pygame.event.get():
-        if event.type == MOUSEBUTTONUP:
-            if event.pos[0]<
+    while True:
+        for event in pygame.event.get():
+            if event.type == MOUSEBUTTONDOWN:
+                for a,b in range(8):
+                    if event.pos[0]>(60*a-30) and event.pos[1]>(60*b-30) and event.pos[0]<(60*a+30) and event.pos[1]<(60*b+30):
+                        if chess ['x']>(60*a-30) and chess ['y']>(60*b-30) and chess ['x']<(60*a+30) and chess ['y']<(60*b+30):
+                            return chess['x','y']
+            if event.type == MOUSEBUTTONUP:
+                for a,b in range(8):
+                    if event.pos[0]>(60*a-30) and event.pos[1]>(60*b-30) and event.pos[0]<(60*a+30) and event.pos[1]<(60*b+30):
+                        chess['x','y']=[60*a,60*b]
+                        eat(chess['x'],chess['y'])
+        
+        for chess in chess[:]:
+             if eat(chess ['rect'], chess ['rect']):
+                chess.remove(chess)
+
+    
 def eat(rect1,rect2): 
     for a,b in [(rect1,rect2),(rect2,rect1)]:
         if ((isPointInsideRect(a.left, a.top, b)) or
