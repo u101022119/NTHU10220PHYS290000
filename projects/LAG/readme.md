@@ -30,8 +30,12 @@ Play Mode
 
 There are two modes for playing.
 
- 1. Time limited mode.
+ 1. Time mode.
+
+  Time limited mode, and any incorrect click will reduce your time.
+
  2. Zen mode.
 
+  Zen mode, you can click on any box without penalty.
 
-lancer
+lancerW
