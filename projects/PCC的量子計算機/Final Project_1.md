@@ -19,11 +19,13 @@ x[0]為x的值，x[1]為x的一次微分值
 		return np.array([ deriv_1 , deriv_2 ])
 	
 ●解ODE
+
 	 t = np.linspace(0.0,50.0,10000) 
 	 xinit = np.array([1.0,0.0])
 	 x = odeint(deriv,xinit,t)
 
 ●畫出來
+
 	 ax1 = plt.subplot2grid((90,160), (0,0), colspan=160 , rowspan=20)
 	 plt.subplots_adjust(bottom=0.1)
 	 l, = plt.plot(t,x[:,0])
@@ -45,6 +47,7 @@ x[0]為x的值，x[1]為x的一次微分值
 	 sepsilon = Slider(axepsilon, 'epsilon', 0.1, 3.0, valinit=epsilon)
 
 ●重算數值的函數
+
 	 def update(val):
 		global epsilon,xinit 
     
@@ -58,11 +61,13 @@ x[0]為x的值，x[1]為x的一次微分值
 		plt.draw()
 	
 ●讓程式更新圖形的指令(去執行update函數)
+
 	 sxinit.on_changed(update)
 	 sdx_dtinit.on_changed(update)
 	 sepsilon.on_changed(update)
 
 ●畫相圖
+
 	 ax2 = plt.subplot2grid((90,160), (30,80), rowspan = 80,colspan = 80)
 	 m, = plt.plot(x[:,0],x[:,1])
 	 plt.axis([-6, 6, -6, 6])
