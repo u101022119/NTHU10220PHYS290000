@@ -4,8 +4,8 @@ CrossBox ReadMe
 The final project of computational physics.
 
 
-This is a game made in python.
-
+This is a game made in python.  
+Inspired by a game *Color Tiles HD* on *App Store* .
 
 How to Play:
 ------------
