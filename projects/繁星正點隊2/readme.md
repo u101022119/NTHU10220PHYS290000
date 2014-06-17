@@ -58,17 +58,17 @@ quick sorting
  
    接著是畫出圖形的部分:
    將已選過(-1)的畫成紅色，正在排(start、end在對應範圍畫成黃色)，剩下其他待排的數列畫成藍色
-        colors=[]
-        N=np.zeros(len(original_array))
-        for n in range(len(original_array)):
-            N[n]=n
-        for set_colors in range(len(original_array)):
-            if recording_array[set_colors]==-1:
-                colors.append('r')   
-            elif start<=set_colors and end>=set_colors:
-                colors.append('y')
-            else:
-                colors.append('b')
+     colors=[]
+     N=np.zeros(len(original_array))
+     for n in range(len(original_array)):
+         N[n]=n
+     for set_colors in range(len(original_array)):
+         if recording_array[set_colors]==-1:
+             colors.append('r')   
+         elif start<=set_colors and end>=set_colors:
+             colors.append('y')
+         else:
+             colors.append('b')
    綠色的部分要在每一個步驟中畫，所以不會放在這裡
    
    接著是步驟1.2.3.:
