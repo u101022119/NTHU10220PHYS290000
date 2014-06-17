@@ -38,4 +38,6 @@
      7 . 本期末報告亦有提供輸出完成的exe檔，於dropbox下載後解壓縮進入dist資料夾點擊"final.exe"即可，
          可提供無安裝python者遊玩，亦或是無法import pygame者(但容量頗大請注意)
      8 . https://www.dropbox.com/s/5r3m9c15ugcmk61/final.rar
+     9 . 另外還有提供專題企畫書，以簡介我們的分工與module的各個功能，方便老師查看code，網址如下
+     10. https://www.dropbox.com/s/owxljq5jp52x3ij/FinalProject.docx
      
