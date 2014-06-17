@@ -1,4 +1,4 @@
-class Time:
+class Time():
     def __init__ (self,h,m,s):
         self.hour = h
         self.minute = m
@@ -54,12 +54,10 @@ class Time:
         else:
             return 0
 
-T = Time(float(raw_input('hour of T: ')),float(raw_input('minute of T: ')),float(raw_input('second of T: ')))
-T2 = Time(float(raw_input('hour of T2: ')),float(raw_input('minute of T: ')),float(raw_input('second of T: ')))
-#T3 = Time(float(raw_input('hour of T3: ')),float(raw_input('minute of T: ')),float(raw_input('second of T: ')))
+T = Time(8,0,0)
+T2 = Time(8,1,0)
+T3 = Time(8,1,2)
 T.print_time()
 T2.print_time()
-#T3.print_time()
-print 'T > T2', T > T2
-print 'T == T2',T == T2
-print 'T < T2', T < T2
+T3.print_time()
+print T > T2 , T == T2 , T < T2

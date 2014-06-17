@@ -1,84 +1,65 @@
-import random
-
-
 class Card(object):
+    suit_names = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
+    rank_names = [None, 'Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
 
-    suit_names = ["Clubs", "Diamonds", "Hearts", "Spades"]
-    rank_names = [None, "Ace", "2", "3", "4", "5", "6", "7", 
-              "8", "9", "10", "Jack", "Queen", "King"]
-
-    def __init__(self, suit=0, rank=2):
+    def __init__(self, suit = 0, rank = 2):
         self.suit = suit
         self.rank = rank
 
     def __str__(self):
-
-        return '%s of %s' % (Card.rank_names[self.rank],
-                             Card.suit_names[self.suit])
+        return '%s of %s' % (Card.rank_names[self.rank], Card.suit_names[self.suit])
 
     def __cmp__(self, other):
-
-        t1 = self.suit, self.rank
-        t2 = other.suit, other.rank
-        return cmp(t1, t2)
-
+        c1 = (self.suit, self.rank)
+        c2 = (other.suit, other.rank)
+        return cmp(c1, c2)
+    def is_valid(self):
+        return self.rank > 0
 
 class Deck(object):
-    
-    def __init__(self):
+    def __init__(self, label = 'Deck'):
+        self.label = label
         self.cards = []
-        for suit in range(4):
-            for rank in range(1, 14):
-                card = Card(suit, rank)
+        for i in range(4):
+            for k in range(1, 14):
+                card = Card(i, k)
                 self.cards.append(card)
-
     def __str__(self):
         res = []
         for card in self.cards:
             res.append(str(card))
-        return '\n'.join(res)
+            print self.label
+            return '\n'.join(res)
+
+    def deal_card(self):
+        return self.cards.pop(0)
 
     def add_card(self, card):
         self.cards.append(card)
 
-    def remove_card(self, card):
-        self.cards.remove(card)
-
-    def pop_card(self, i=-1):
-        return self.cards.pop(i)
-
     def shuffle(self):
+        import random
         random.shuffle(self.cards)
 
     def sort(self):
         self.cards.sort()
 
-    def move_cards(self, hand, num):
+    def move_cards(self, other, num):
         for i in range(num):
-            hand.add_card(self.pop_card())
-
+            other.add_card(self.deal_card())
+    def deal_hands(self, num_hands, num_cards):
+        if num_hands*num_cards > 52:
+            return 'Not enough cards.'
+        l = []
+        for i in range(1, num_hands + 1):
+            hand_i = Hand('Hand %d' % i)
+            self.move_cards(hand_i, num_cards)
+            l.append(hand_i)
+            return l
 
 class Hand(Deck):
-    
-    def __init__(self, label=''):
+    def __init__(self, label = ''):
         self.cards = []
         self.label = label
 
-
-def find_defining_class(obj, method_name):
-    for ty in type(obj).mro():
-        if method_name in ty.__dict__:
-            return ty
-    return None
-
-
-if __name__ == '__main__':
-    deck = Deck()
-    deck.shuffle()
-
-    hand = Hand()
-    print find_defining_class(hand, 'shuffle')
-
-    deck.move_cards(hand, 5)
-    hand.sort()
-    print hand
+ 
