@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Created on Tue Jun 17 15:56:49 2014
 
-This temporary script file is located here:
-C:\Users\user\.spyder2\.temp.py
+@author: user
 """
 
 def catalan(n):
@@ -15,7 +14,3 @@ def catalan(n):
 a = int(raw_input('Put an integer:'))
 for i in range(a+1):
     print catalan(i),
-
-
-        
-        
