@@ -105,6 +105,7 @@ quick sorting
                     original_array[start+p]=operation_array[p]
   
   我交換的方式是如果前面的第K項比選取數字大，就將它移到選取數字的位置，選取數字進一格，而在選取數字前面的那一項(如果還有的話)，則是移到原來第K項所在的位置，大致上是三項作交換，而這時又必須從第K項開始檢查(而不是K+1項)，所以才用first_term和last_term來設定範圍。在畫圖的部分，每一個步驟都重新設定綠色的項數
+     
      clf()
         colors[start+last_term]='r'
         plt.bar(N,original_array,width=0.3,color=colors)
@@ -117,7 +118,7 @@ quick sorting
         recording_array[start+last_term]=-1
         return original_array,operation_array,recording_array
     
-    最後是步驟4.的部分，包含畫出圖形:
+   最後是步驟4.的部分，包含畫出圖形:
      
      clf()
         colors[start+last_term]='r'
@@ -133,6 +134,7 @@ quick sorting
     
  2.quick_sort(original_array):
    這是主函數，涵蓋了步驟5.6.7
+   
  1. first item
  2. second item
  3. third item
