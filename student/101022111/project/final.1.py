@@ -23,7 +23,7 @@ LIGHTGRAY    = ( 200, 200, 200)
 DARKGRAY     = ( 40 , 40 , 40 )
 WHITE        = ( 255, 255, 255)
 BLACK        = ( 0  , 0  , 0  )
-BLUE         = ( 0  , 243, 253)
+BLUE         = ( 0  , 153, 253)
 
     #  white chess
         
@@ -136,23 +136,6 @@ def main():
     while True:
         runGame()
         showGameOverScreen(runGame)
-# 
-def drawPressKeyMsg():
-    pressKeySurf = BASICFONT.render('Press a key to play.', True, WHITE)
-    pressKeyRect = pressKeySurf.get_rect()
-    pressKeyRect.topleft = (WINDOWWIDTH - 200, WINDOWHEIGHT - 30)
-    DISPLAYSURF.blit(pressKeySurf, pressKeyRect)
-def checkForKeyPress():
-    if len(pygame.event.get(QUIT)) > 0:
-        terminate()
-
-    keyUpEvents = pygame.event.get(KEYUP)
-    if len(keyUpEvents) == 0:
-        return None
-    if keyUpEvents[0].key == K_ESCAPE:
-        terminate()
-    return keyUpEvents[0].key
-
 def terminate():
     pygame.quit()
     sys.exit()
@@ -162,6 +145,7 @@ def terminate():
 def runGame():
     while True:
         pygame.display.flip()
+        # build chess
         DISPLAYSURF.blit(white_kingimage, white_king)
         DISPLAYSURF.blit(white_queenimage, white_queen)
         DISPLAYSURF.blit(white_knight1image, white_knight1)
@@ -194,24 +178,19 @@ def runGame():
         DISPLAYSURF.blit(black_soldier5image, black_soldier5)
         DISPLAYSURF.blit(black_soldier6image, black_soldier6)
         DISPLAYSURF.blit(black_soldier7image, black_soldier7)
-        DISPLAYSURF.blit(black_soldier8image, black_soldier8) 
-        
+        DISPLAYSURF.blit(black_soldier8image, black_soldier8)        
         
         for event in pygame.event.get():
-            
-            
-            
+            # choose chess          
             if event.type == MOUSEBUTTONDOWN:
                 for a in range(9):
                     for b in range(9):
                         if event.pos[0]>(60*a-30) and event.pos[1]>(60*b+30) and event.pos[0]<(60*a+30) and event.pos[1]<(60*b+90):
                             if (black_king.left+30)>(60*a-30) and (black_king.top-30)>(60*b-30) and (black_king.left+30)<(60*a+30) and (black_king.top-30)<(60*b+30):
-                                choosen=black_king
-                                
+                                choosen=black_king                                
                                 
                             elif (black_queen.left+30)>(60*a-30) and (black_queen.top-30)>(60*b-30) and (black_queen.left+30)<(60*a+30) and (black_queen.top-30)<(60*b+30):
-                                choosen=black_queen
-                                pygame.draw.rect(DISPLAYSURF, BLACK, black_queen)
+                                choosen=black_queen                               
                         
                             elif (black_knight1.left+30)>(60*a-30) and (black_knight1.top-30)>(60*b-30) and (black_knight1.left+30)<(60*a+30) and (black_knight1.top-30)<(60*b+30):
                                 choosen=black_knight1
@@ -305,23 +284,18 @@ def runGame():
                             
                             print choosen
                                                                                
-                   
-            if event.type == MOUSEBUTTONUP:
-                print 1
-                print choosen
+            # move chess       
+            if event.type == MOUSEBUTTONUP:  
                 for a in range(9):
                     for b in range(9):
                         if event.pos[0]>(60*a-30) and event.pos[1]>(60*b+30) and event.pos[0]<(60*a+30) and event.pos[1]<(60*b+90):
-                            print 3
-                            print choosen
                             if choosen==black_king:
                                 pygame.draw.rect(DISPLAYSURF, BLACK, black_king)
                                 drawGrid()
                                 if 60*a>black_king.left-60 and 60*b>black_king.top-120 and 60*a<black_king.left+120 and 60*b<black_king.top+60:
                                     black_king.left=60*a-30
                                     black_king.top =60*b+30
-                                    blackeatwhite(black_king)
-                                    
+                                    blackeatwhite(black_king)                                    
                                     choosen=0
                                 elif():
                                     choosen=0
@@ -729,7 +703,7 @@ def runGame():
                                     elif():
                                         choosen=0
                             elif choosen==black_bishop2:    
-                                pygame.draw.rect(DISPLAYSURF, BLACK, black_bishop1)
+                                pygame.draw.rect(DISPLAYSURF, BLACK, black_bishop2)
                                 drawGrid()
                                 for c in range(-8,8,1):
                                     if 60*a>black_bishop2.left-60*c and 60*a<black_bishop2.left-60*c-60 and 60*b>black_bishop2.top+60*c and 60*b<black_bishop2.top+60*c+60:
@@ -951,13 +925,13 @@ def runGame():
                             elif choosen==black_soldier2:
                                 pygame.draw.rect(DISPLAYSURF, BLACK, black_soldier2)
                                 drawGrid()
-                                if black_soldier2.left==90 and black_soldier2.top==390 and 60*a>black_soldier2.left and 60*a<black_soldier2.left+60 and 60*b>black_soldier2.top-60 and 60*b>black_soldier2.top-180:
+                                if black_soldier2.left==90 and black_soldier2.top==390 and 60*a>black_soldier2.left and 60*a<black_soldier2.left+60 and 60*b<black_soldier2.top-60 and 60*b>black_soldier2.top-180:
                                     black_soldier2.left=60*a-30
                                     black_soldier2.top =60*b+30
                                 elif 60*a>black_soldier2.left and 60*a<black_soldier2.left+60 and 60*b<black_soldier2.top-60 and 60*b>black_soldier2.top-120:
                                     black_soldier2.left=60*a-30
                                     black_soldier2.top =60*b+30
-                                if 60*a>black_soldier2.left-60 and 60*b>black_soldier1.top-120 and 60*a<black_soldier2.left and 60*b<black_soldier2.top-60:
+                                if 60*a>black_soldier2.left-60 and 60*b>black_soldier2.top-120 and 60*a<black_soldier2.left and 60*b<black_soldier2.top-60:
                                     black_soldier2.left=60*a-30
                                     black_soldier2.top =60*b+30
                                     blackeatwhite(black_soldier2)
@@ -1095,12 +1069,12 @@ def runGame():
                                     choosen=0 
                                 elif():
                                     choosen=0
-                                
+        # if king is dead                        
         if  white_king.left==0 and white_king.top ==0:
             return 'BLACK Win'
         if  black_king.left==0 and black_king.top ==0:
             return 'WHITE Win'
-
+# draw line
 def drawGrid():
     
     for x in range(30, Chessboardwidth+90, CELLSIZE): # draw vertical lines
@@ -1109,7 +1083,7 @@ def drawGrid():
     for y in range(30, Chessboardheight+90, CELLSIZE): # draw horizontal lines
         pygame.draw.line(DISPLAYSURF, DARKGRAY, (30, y), (Chessboardwidth+30, y))
  
-
+# black eat white
 def blackeatwhite(chees):
     if chees.left==white_knight1.left and chees.top==white_knight1.top :
         white_knight1.left=900
@@ -1159,7 +1133,7 @@ def blackeatwhite(chees):
     elif chees.left==white_king.left and chees.top==white_king.top :
         white_king.left=0
         white_king.top =0
-        
+# white eat black        
 def whiteeatblack(chees):
     if chees.left==black_knight1.left and chees.top==black_knight1.top :
         black_knight1.left=900
@@ -1209,20 +1183,15 @@ def whiteeatblack(chees):
     elif chees.left==black_king.left and chees.top==black_king.top :
         black_king.left=0
         black_king.top =0
+# when game over
 def showGameOverScreen(runGame):
     gameOverFont = pygame.font.Font('freesansbold.ttf', 150)
     gameSurf = gameOverFont.render(runGame(), True, BLUE) 
     gameRect = gameSurf.get_rect()
     gameRect.midtop = (WINDOWWIDTH / 2, 10)
     DISPLAYSURF.blit(gameSurf, gameRect)
-    drawPressKeyMsg()
     pygame.display.update()
-    pygame.time.wait(500)
-    checkForKeyPress() # clear out any key presses in the event queue
-
-    while True:
-        if checkForKeyPress():
-            pygame.event.get()
-            return # clear event queue
+    pygame.time.wait(500)  
+# start game
 if __name__ == '__main__':
     main()
