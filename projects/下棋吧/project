@@ -89,7 +89,7 @@ def waitForPlayerToPressKey():
                 return
 
 
-
+#create bricks
 BRICKHEIGHT = 15
 BRICKWIDTH = 30
 Gbricks = []
@@ -107,7 +107,7 @@ life = 2
         
 # run the game loop
 while True:   
-    # set up movement variables
+    # set up movement variables  'M' for player 'm' for ball
     MoveLeft = False
     MoveRight = False
     MoveUp = False
@@ -118,11 +118,11 @@ while True:
     moveUp = True
     moveDown = False
 
-    START = False
-
     MOVESPEED = 8
-    movespeedV = 6
-    movespeedH = 6
+    movespeedV = 6   # the speed of ball in y direction
+    movespeedH = 6   # the speed of ball in x direction
+       
+    START = False    # the variable to check have you served   
        
     player = pygame.Rect(250, 420, 60, 10)
     ball = pygame.Rect(275, 410, 10, 10)
@@ -163,7 +163,7 @@ while True:
         # draw the background onto the surface
         windowSurface.fill(GRAY)
 
-        if START:
+        if START:     # the spacebar has been pressed
             # the direction of ball
             if moveLeft:
                 ball.left -= movespeedH
@@ -181,7 +181,7 @@ while True:
                     moveDown = True
                     moveUp = False       
             if ball.bottom > WINDOWHEIGHT:  
-            # ball has moved past the bottom  i.e. you lost a ball
+            # ball has moved past the bottom  i.e. you lose a ball
                 moveLeft = False
                 moveRight = False
                 moveUP = False
@@ -189,13 +189,13 @@ while True:
                 points -= 50
                 if points < 0:
                     points = 0
-                life -=1
-                if life == 0:
+                life -=1               #lose one ball
+                if life == 0:          #if you have no ball, game over
                     showGameOverScreen(points)
                     pygame.display.update()
                     waitForPlayerToPressKey2()
                     break
-                else:
+                else:               #if you still have a ball, press a key to continue
                     drawText('Press a key to continue', WHITE, TEXTFONT, 200, 360)
                     pygame.display.update()
                     waitForPlayerToPressKey1()
@@ -207,12 +207,11 @@ while True:
                     moveLeft = False
                     moveRight = True
             if ball.right > WINDOWWIDTH:
-            # ball has moved past the right side
+                # ball has moved past the right side
                 if moveRight:
                     moveLeft = True
                     moveRight = False
-            if life == 0:
-                break     
+      
             # move the player
             if MoveDown and player.bottom < WINDOWHEIGHT:
                 player.top += MOVESPEED
@@ -223,6 +222,7 @@ while True:
             if MoveRight and player.right < WINDOWWIDTH:
                 player.right += MOVESPEED
             
+            # check if the ball has collide with player.
             if player.colliderect(ball):       
                 moveUP = True
                 moveDown = False
@@ -266,10 +266,11 @@ while True:
                     moveDown = False
                     break
                    
-        # draw the food
+        # draw the brick
         for i in range(len(Gbricks)):
             pygame.draw.rect(windowSurface, GREEN, Gbricks[i],2)
-            
+        
+        # check if you win or not    
         if len(Gbricks)==0:
             showWinScreen(points)
             pygame.display.update()
