@@ -147,7 +147,9 @@ quick sorting
         quick_sort_one_step(original_array,operation_array,recording_array,start,end)
         print recording_array
     
+    
     進到步驟5.用二個迴圈starrt和end的值(這是多出一般的寫法的步驟...):
+    
     
     for find_start in range(0,len(original_array)):            
             if find_start==0 and recording_array[0]!=-1:
@@ -156,6 +158,7 @@ quick sorting
             elif find_start!=0 and recording_array[find_start-1]==-1 and recording_array[find_start]!=-1:
                 start=find_start
                 break
+    
     
     for find_end in range(0,len(original_array)):
             if recording_array[find_end]!=-1:  
