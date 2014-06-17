@@ -58,7 +58,7 @@ quick sorting
  
    接著是畫出圖形的部分:
    將已選過(-1)的畫成紅色，正在排(start、end在對應範圍畫成黃色)，剩下其他待排的數列畫成藍色
-     colors=[]
+        colors=[]
         N=np.zeros(len(original_array))
         for n in range(len(original_array)):
             N[n]=n
@@ -72,7 +72,7 @@ quick sorting
    綠色的部分要在每一個步驟中畫，所以不會放在這裡
    
    接著是步驟1.2.3.:
-     for j in range(array_length):       
+       for j in range(array_length):       
             if j+first_term>=last_term:
                 clf()
                 colors[start+last_term]='g'
