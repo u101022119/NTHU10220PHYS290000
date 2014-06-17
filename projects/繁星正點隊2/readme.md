@@ -57,7 +57,8 @@ quick sorting
           choosen_number=operation_array[last_term]
  
    接著是畫出圖形的部分:
-   將已選過(-1)的畫成紅色，正在排(start、end在對應範圍畫成黃色)，剩下其他待排的數列畫成藍色
+   將已選過(-1)的畫成紅色，正在排(start、end在對應範圍畫成黃色)，剩下其他待排的數列畫成藍色:
+   
      colors=[]
      N=np.zeros(len(original_array))
      for n in range(len(original_array)):
