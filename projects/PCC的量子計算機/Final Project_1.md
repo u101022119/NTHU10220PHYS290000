@@ -45,7 +45,7 @@ x[0]為x的值，x[1]為x的一次微分值
 	 sepsilon = Slider(axepsilon, 'epsilon', 0.1, 3.0, valinit=epsilon)
 
 ●重算數值的函數
-	def update(val):
+	 def update(val):
 		global epsilon,xinit 
     
 		epsilon = sepsilon.val
