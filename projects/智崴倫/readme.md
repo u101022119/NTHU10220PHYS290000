@@ -34,6 +34,7 @@
      4 . 每種難度共有3種對應老師說話習慣的評語，共9種
      5 . 本遊戲提供一個完整可循環不當機無bug的環境，可順利在電腦中執行，亂按遊戲也不會消失不會當機
      6 . 遊戲圖片等完整內容請到dropbox下載，網址如下提供
-     7 . 本期末報告亦有提供輸出完成的exe檔，於dropbox下載後解壓縮進入dist資料夾點擊"final.exe"即可
+     7 . 本期末報告亦有提供輸出完成的exe檔，於dropbox下載後解壓縮進入dist資料夾點擊"final.exe"即可，
+         可提供無安裝python者遊玩，亦或是無法import pygame者(但容量頗大請注意)
      8 . https://www.dropbox.com/s/5r3m9c15ugcmk61/final.rar
      
