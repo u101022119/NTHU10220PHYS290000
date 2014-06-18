@@ -1,6 +1,8 @@
 An h1 header
 ============
-
++這個遊戲就是電流急急棒，遊戲規則為使用滑鼠沿著黑色軌道走到終點
++如果中途滑出軌道則為失敗，按任意鍵可以回到原點重新再一次
++請小心謹慎並有耐心
 Paragraphs are separated by a blank line.
 
 2nd paragraph. *Italic*, **bold**, `monospace`. Itemized lists
@@ -22,7 +24,10 @@ content starts at 4-columns in.
 Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex. "it's all in
 chapters 12--14"). Three dots ... will be converted to an ellipsis.
 
-
++遊戲所需的音訊檔可至以下網址下載
++https://www.dropbox.com/s/93tnssf2iwsetp2/Dota.mp3
++https://www.dropbox.com/s/oov6lal3zpg70pi/laugh.mp3
++https://www.dropbox.com/s/tr39qlwkac2fvc5/Pygame.mp3
 
 An h2 header
 ------------
