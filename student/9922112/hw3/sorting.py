@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue May 20 16:45:46 2014
+Created on Thu Jun 19 15:37:34 2014
 
-@author: user
+@author: Administrator
 """
 
 import random
-def random_list(N,a,b):
-    c = []
-    for i in range(N):
-        c.append(random.randint(a,b))
-    return c
 
-def selection_sort(c,N):
-    print random.sample(c,N)
-    
-selection_sort()
+def random_list(N,a,b):
+    R = []
+    for i in range(N):
+        R.append(random.randint(a,b))
+    return R
+

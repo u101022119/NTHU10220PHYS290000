@@ -26,10 +26,13 @@ class Card(object):
         t1 = self.suit, self.rank
         t2 = other.suit, other.rank
         return cmp(t1, t2)
-#p=Card(3,3)
-#q=Card(1,2)
-#print p.__cmp__(q)
 
+def kind(n,ranks):
+    for r in ranks:
+        if ranks.count(r) >=n:
+            return 'True'
+    return 'False'
+                        
 class Deck(object):
     def __init__(self):
         self.cards = []
@@ -48,40 +51,79 @@ class Deck(object):
         self.cards.append(card)
     def shuffle(self):
         random.shuffle(self.cards)
+    def sort(self):
+        self.cards.sort()
+        
     def move_cards(self, hand, num):
         for i in range(num):
             hand.add_card(self.pop_card())
     def deal_hands(self,n1,n2): #n1,n2 represent:the number of hands and the number of cards per hand
-        H=[]        
+        H=[]
         for i in range(n1):
-            hand=Hand()                     
+            hand=Hand()
             self.move_cards(hand,n2)
-            print hand    
-d=Deck()
-print d.deal_hands(3,5)
-print'\n\n\n\n\n\n\n\n'
-print d
-
-
-#    def sort(self):
-#        for x in self.cards:
-#            for y in self.cards:
-#                if x.__cmp__(y)==1:
-                                                       
-#d=Deck()
-#d.shuffle()
-#d.cards.sort()
-#print d
+            H.append(hand)
+        return H #會是一個list, 每一個element是發出去的手牌
+    def rank_list(self): #將Hand的rank轉為list
+        L=[]
+        for x in self.cards:
+            L.append(x.rank)
+        return L               
+    def has_pair(self):
+        R=self.rank_list()
+        return kind(2,R)
+    def has_two_pairs(self):
+        R=self.rank_list()
+        n=0
+        for r in R:
+            if R.count(r)>=2:
+                n=n+1
+        return n/2>=2
+    def has_three_of_a_kind(self):
+        R=self.rank_list()
+        return kind(3,R)
+    def has_flush(self):
+        R=self.rank_list()
+        p=0
+        q=0
+        for r in R:
+            if R.count(r) >=3:
+               p=r
+            elif R.count(r)==2:
+               q=r
+        return p!=q and p>0 and q>0
+    def classify(self):
+        if self.has_flush()==True:
+            return 'flush'
+        else:
+            if self.has_three_of_a_kind()=="True":
+                return 'three of a kind'
+            else:
+                if self.has_two_pairs()==True:
+                    return 'two pairs'
+                else:
+                    if self.has_pair()=="True":
+                        return 'pairs'       
+        
 class Hand(Deck):
     """Represents a hand of playing cards."""
     def __init__(self,cards=[], label=''):
         self.cards = []
         self.label = label
-    def has_pair():
-        
-#h=Hand()
-#d.move_cards(h,3)
-#print h
+         
+def probability(category,n):#計算某種牌型(category)，發牌n次，平均發牌一次拿到的機率
+    d=Deck()
+    h=Hand()
+    s=0
+    for i in range(n):
+        d=Deck()
+        hand=Hand()
+        d.shuffle()
+        d.move_cards(hand,5)
+        if hand.classify()==category:
+            s=s+1
+    return float(s)/n*100         
 
 
-    
+print probability('flush',10000),"%"
+
