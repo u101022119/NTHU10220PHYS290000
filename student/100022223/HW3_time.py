@@ -35,7 +35,6 @@ class Time(object):
         self.second = (a%3600)%60
         print Time.print_time(self)
 
-
 time1 = Time()
 time1.hour = 2
 time1.minute = 19
