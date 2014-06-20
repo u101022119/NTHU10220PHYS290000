@@ -1,28 +1,37 @@
-import pygame, sys
+import pygame, sys, random
 import sqlite3
-import random
 from pygame.locals import *
 
 FPS = 30
 WINDOWWIDTH = 1280
 WINDOWHEIGHT = 700
-BOXSIZE = 20
-GAPSIZE = 10
-BOARDWIDTH = 40
-BOARDHEIGHT = 20
-BLANKNUMBER = 20
+BOXSIZE = 25
+GAPSIZE = 7 
+UNITSIZE = BOXSIZE + GAPSIZE
 LINEWIDTH = 3
-TOTALTIME = 2300
+BLANKNUMBER = 80
+
 BASICSIZE = 20
 MENUSIZE = 40
 
-MODEMENU = 'menu'
-MODESTART = 'start'
-MODEZEN = 'zen'
-MODETIME = 'time'
+MODEMENU = 'Menu'
+MODEZEN = 'Zen'
+MODERANK = 'Rank'
+MODETIME10x10 = 'Time 10x10'
+MODETIME15x15 = 'Time 15x15'
+MODETIME18x18 = 'Time 18x18'
+MODETIME25x18 = 'Time 25x18'
+GAMEMODES = [MODEZEN, MODETIME10x10, MODETIME15x15, MODETIME18x18, MODETIME25x18]
 
-XMARGIN = int((WINDOWWIDTH - (BOARDWIDTH * (BOXSIZE + GAPSIZE)))/2)
-YMARGIN = int((WINDOWHEIGHT - (BOARDHEIGHT * (BOXSIZE + GAPSIZE)))/2)
+SIZEOFGAMEMODE = {MODEZEN:(35,18),MODETIME10x10:(10,10),MODETIME15x15:(15,15),MODETIME18x18:(18,18),MODETIME25x18:(25,18)}
+TOTALTIMEOFGAMEMODE = {MODEZEN:2000, MODETIME10x10:500, MODETIME15x15:1000, MODETIME18x18:1500, MODETIME25x18:2000}
+
+GAMETOMENU = 'gametomenu'
+MENUTOGAME = 'menutogame'
+GAMETOGAME = 'gametogame'
+MENUTORANK = 'menutorank'
+RANKTOMENU = 'ranktomenu'
+DELETEDATA = 'deletedata'
 
 GRAY = (100,100,100)
 BLUE = (0,0,255)
@@ -35,280 +44,341 @@ RED = (255,0,0)
 GREEN = (0,255,0)
 PURPLE = (255,0,255)
 
-BACKGROUNDCOLOR = GRAY
+BGCOLOR = GRAY
 HIGHLIGHTCOLOR = BLUE
-BOXCOLOR = BLACK
 LINECOLOR = (242,156,73)
 TEXTCOLOR = (115,212,236)
 TIMECOLOR = (141,106,243)
 
 ALLCOLORS = (RED, GREEN, WHITE, YELLOW, DEEPBLUE, PURPLE, CYAN)
 
-con = sqlite3.connect('crossbox.db3')
-cur = con.cursor()
-cur.execute("select count(*) from sqlite_master where type='table' and name='rankingoftime'")
-if cur.fetchone()[0] == 0:
-	cur.execute("create table rankingoftime(score,name)")
-cur.execute("select count(*) from sqlite_master where type='table' and name='rankingofzen'")
-if cur.fetchone()[0] == 0:
-	cur.execute("create table rankingofzen(score,name)")
+class Option(object):
+	def __init__(self, surf, rect, typeofoption, mode = None):
+		self.surf = surf
+		self.rect = rect
+		self.typeofoption = typeofoption
+		self.mode = mode
+	def action(self,board):
+		if self.typeofoption == GAMETOMENU:
+			RecordScore(board)
+			board.mode = MODEMENU
+		elif self.typeofoption == MENUTOGAME:
+			width, height = SIZEOFGAMEMODE[self.mode]
+			board.setsize(width,height) 
+			board.totaltime = TOTALTIMEOFGAMEMODE[self.mode]
+			board.initialize()
+			board.mode = self.mode
+		elif self.typeofoption == GAMETOGAME:
+			RecordScore(board)
+			board.initialize()
+		elif self.typeofoption == MENUTORANK:
+			board.mode = MODERANK
+		elif self.typeofoption == RANKTOMENU:
+			board.mode = MODEMENU
+		elif self.typeofoption == DELETEDATA:
+			DeleteScore()
 
+class Box(object):
+	def __init__(self, color=BGCOLOR, left=0, top=0, size=0):
+		self.size = size
+		self.color = color
+		self.visible = True
+		self.rect = pygame.Rect(left,top,size,size)
 
-def main():#game loop
-	global FPSCLOCK, DISPLAYSURF, mainBoard, remainedBoxes, time, score, RESTART_SURF, RESTART_RECT, TIME_SURF, TIME_RECT, MENU_SURF, MENU_RECT, ZEN_SURF, ZEN_RECT
+class Board(object):
+	def __init__(self, width=10, height=10):
+		self.width = width
+		self.height = height
+		self.score = 0
+		self.totaltime = 0
+		self.time = 0
+		self.xmargin = int((WINDOWWIDTH - (width*UNITSIZE))/2)
+		self.ymargin = int((WINDOWHEIGHT - (height*UNITSIZE))/2)
+		self.mode = MODEMENU
+	
+	def setsize(self, width=10, height=10):
+		self.width = width
+		self. height = height
+		self.xmargin = int((WINDOWWIDTH - (width*UNITSIZE))/2)
+		self.ymargin = int((WINDOWHEIGHT - (height*UNITSIZE))/2)
+
+	def decresetime(self, decrement=1):
+		self.time -= decrement
+
+	def initialize(self):
+		self.board = []
+		for i in range(self.width):
+			tmp = []
+			for j in range(self.height):
+				color = randomcolor()
+				left = self.xmargin + UNITSIZE * i
+				top = self.ymargin + UNITSIZE * j
+				tmp.append(Box(color,left,top,BOXSIZE))
+			self.board.append(tmp)
+		for i in range(BLANKNUMBER):
+			x = random.randint(0,self.width-1)
+			y = random.randint(0,self.height-1)
+			self.board[x][y].visible = False
+		self.combo = 0
+		self.score = 0
+		self.time = self.totaltime
+	
+	def IncreseOneBox(self):
+		tmp = []
+		for i in range(self.width):
+			for j in range(self.height):
+				if self.board[i][j].visible == False:
+					tmp.append(self.board[i][j])
+		index = random.randint(0,len(tmp)-1)
+		tmp[index].visible = True
+		tmp[index].color = randomcolor()
+
+	def getCoordAtPixel(self,x,y):
+		for i in range(self.width):
+			for j in range(self.height):
+				if self.board[i][j].rect.collidepoint(x,y):
+					return (i,j)
+		return (None,None)
+	
+	def ClickOnBox(self,x,y):
+		if self.board[x][y].visible == True:
+			return
+		boxlist = []
+		dx = (0,0,1,-1)
+		dy = (1,-1,0,0)
+		for i in range(4):
+			nowx, nowy = x+dx[i], y+dy[i]
+			while 0<=nowx<self.width and 0<=nowy<self.height:
+				if self.board[nowx][nowy].visible:
+					boxlist.append(self.board[nowx][nowy])
+					break
+				nowx, nowy = nowx+dx[i], nowy+dy[i]
+		cancelbox = 0
+		for i in range(len(boxlist)):
+			for j in range(len(boxlist)):
+				if i is not j :
+					if boxlist[i].color == boxlist[j].color:
+						boxlist[i].visible = False
+						cancelbox += 1
+						break
+		self.score += cancelbox 
+		self.time += cancelbox * 10
+		if cancelbox == 0:
+			self.time -= 100
+
+def main():
+	global DISPLAYSURF
 
 	pygame.init()
+
+	OpenDatabase()
+	CreateAllOptions()
+
 	FPSCLOCK = pygame.time.Clock()
 	DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH,WINDOWHEIGHT))
-	pygame.display.set_caption('Cross Boxes')
+	pygame.display.set_caption("Cross Boxes")
+
+	DISPLAYSURF.fill(BGCOLOR)
+	MainBoard = Board()
 	
-	RESTART_SURF, RESTART_RECT = makeText('Restart', TEXTCOLOR, BACKGROUNDCOLOR, WINDOWWIDTH-100, WINDOWHEIGHT-30,BASICSIZE)
-	TIME_SURF, TIME_RECT = makeText('Time', TEXTCOLOR, BACKGROUNDCOLOR, WINDOWWIDTH/2-50, WINDOWHEIGHT/2-70,MENUSIZE)
-	ZEN_SURF, ZEN_RECT = makeText('Zen', TEXTCOLOR, BACKGROUNDCOLOR, WINDOWWIDTH/2-50, WINDOWHEIGHT/2,MENUSIZE)
-	MENU_SURF, MENU_RECT = makeText('Menu', TEXTCOLOR, BACKGROUNDCOLOR, WINDOWWIDTH-180, WINDOWHEIGHT-30,BASICSIZE)
-
-
-	mouseX = 0
-	mouseY = 0
-
-	mode = MODEMENU
-	DISPLAYSURF.fill(BACKGROUNDCOLOR)
-	
-	InitializeGmae()
-
 	while True:
-		mouseClicked = False
-
-		DISPLAYSURF.fill(BACKGROUNDCOLOR)
-		if mode == MODEMENU:
-			drawScore(score)
-			drawMenu()
-			drawHighestScore()
-			for event in pygame.event.get():
-				CheckForTerminate(event)
-				if event.type == MOUSEBUTTONDOWN:
-					if TIME_RECT.collidepoint(event.pos):
-						InitializeGmae()
-						mode = MODETIME
-					elif ZEN_RECT.collidepoint(event.pos):
-						InitializeGmae()
-						mode = MODEZEN
-		elif mode == MODETIME:
-			drawBoard(mainBoard, remainedBoxes)
-			drawOptions()
-			drawScore(score)
-			drawTime(time)
-			for event in pygame.event.get():
-				CheckForTerminate(event)
-				if event.type == MOUSEMOTION:
-					mouseX, mouseY = event.pos
-				elif event.type == MOUSEBUTTONDOWN:
-					mouseX, mouseY = event.pos
-					mouseClicked = True
-
-			boxX, boxY = getBoxAtPixel(mouseX,mouseY)
-			
-			if boxX == None and boxY == None:
-				if mouseClicked:
-					if RESTART_RECT.collidepoint(event.pos):
-						cur.execute("insert into rankingoftime values("+str(score)+",'unknown')")
-						con.commit()
-						InitializeGmae()
-					elif MENU_RECT.collidepoint(event.pos):
-						mode = MODEMENU
-						cur.execute("insert into rankingoftime values("+str(score)+",'unknown')")
-						con.commit()
-			elif boxX != None and boxY != None:
-				drawHighlightBox(boxX,boxY)
-				if mouseClicked:
-					clickOnBox(boxX,boxY)	
-			time -= 1
-			if time <= 0:
-				mode = MODEMENU
-				cur.execute("insert into rankingoftime values("+str(score)+",'unknown')")
-				con.commit()
-		elif mode == MODEZEN:
-			drawBoard(mainBoard, remainedBoxes)
-			drawOptions()
-			drawScore(score)
-			for event in pygame.event.get():
-				CheckForTerminate(event)
-				if event.type == MOUSEMOTION:
-					mouseX, mouseY = event.pos
-				elif event.type == MOUSEBUTTONDOWN:
-					mouseX, mouseY = event.pos
-					mouseClicked = True
-
-			boxX, boxY = getBoxAtPixel(mouseX,mouseY)
-			
-			if boxX == None and boxY == None:
-				if mouseClicked:
-					if RESTART_RECT.collidepoint(event.pos):
-						cur.execute("insert into rankingofzen values("+str(score)+",'unknown')")
-						con.commit()
-						InitializeGmae()
-					elif MENU_RECT.collidepoint(event.pos):
-						cur.execute("insert into rankingofzen values("+str(score)+",'unknown')")
-						con.commit()
-						mode = MODEMENU
-			elif boxX != None and boxY != None:
-				drawHighlightBox(boxX,boxY)
-				if mouseClicked:
-					clickOnBox(boxX,boxY)	
+		DISPLAYSURF.fill(BGCOLOR)
+		if MainBoard.mode == MODEMENU:
+			MenuInterface(MainBoard)
+		elif MainBoard.mode == MODERANK:
+			RankInterface(MainBoard)
+		else:
+			GameInterface(MainBoard)
 		pygame.display.update()
 		FPSCLOCK.tick(FPS)
-				
 
-def InitializeGmae():
-	global mainBoard, remainedBoxes, score, time
-	mainBoard = getInitialBoard()
-	remainedBoxes = getInitialRemainedBoxes()
-	score = 0
-	time = TOTALTIME
+def GameInterface(board):
+	global GameOptions
+	drawGame(board)
+	drawScore(board.score)
 
-def clickOnBox(boxX,boxY):
-	global score, time
-	canceledbox = 0
-	if not remainedBoxes[boxX][boxY]:
-		UP = [boxX, boxY]
-		DOWN = [boxX, boxY]
-		LEFT = [boxX, boxY]
-		RIGHT = [boxX, boxY] 
-
-		position = []
-		dx = [0,0,1,-1]
-		dy = [-1,1,0,0]
-		for i in range(4):
-			nowX, nowY = boxX+dx[i], boxY+dy[i]
-			while nowX>=0 and nowX<BOARDWIDTH and nowY>=0 and nowY<BOARDHEIGHT:
-				if remainedBoxes[nowX][nowY]:
-					position.append([nowX,nowY])
-					break
-				else:
-					nowX += dx[i]
-					nowY += dy[i]
-		boxcolors = []
-		for i in range(len(position)):
-			boxcolors.append(mainBoard[position[i][0]][position[i][1]])
-
-		for i in range(len(position)):
-			for j in range(len(position)):
-				if i is not j:
-					if boxcolors[i] == boxcolors[j]:
-						X = position[i][0]
-						Y = position[i][1]
-						remainedBoxes[X][Y] = False
-						score += 1
-						canceledbox += 1
-						time += 10
-						break
-		if canceledbox == 0:
-			time -= 100 
-
-def getBoxAtPixel(x,y):
-	for boxX in range(BOARDWIDTH):
-		for boxY in range(BOARDHEIGHT):
-			left, top = leftTopCoordsOfbox(boxX,boxY)
-			boxRect = pygame.Rect(left,top,BOXSIZE,BOXSIZE)
-			if boxRect.collidepoint(x,y):
-				return (boxX,boxY)
-	return (None,None)
-
-
-def getInitialRemainedBoxes():
-	remained = []
-	for i in range(BOARDWIDTH):
-		remained.append([True] * BOARDHEIGHT)
-	for i in range(BLANKNUMBER):
-		X = random.randint(0,BOARDWIDTH-1)
-		Y = random.randint(0,BOARDHEIGHT-1)
-		remained[X][Y] = False
-	return remained
-
-def leftTopCoordsOfbox(boxX,boxY):
-	left = boxX * (BOXSIZE + GAPSIZE) + XMARGIN
-	top = boxY * (BOXSIZE + GAPSIZE) + YMARGIN
-	return (left,top)
-
-def getInitialBoard():
-	colors = []
-	for i in range(BOARDWIDTH * BOARDHEIGHT):
-		colorindex = random.randint(0,len(ALLCOLORS)-1)
-		selectedcolor = ALLCOLORS[colorindex]
-		colors.append(selectedcolor)
-	board = []
-	for x in range(BOARDWIDTH):
-		column = []
-		for y in range(BOARDHEIGHT):
-			column.append(colors[0])
-			del colors[0]
-		board.append(column)
-	return board
-
-def drawBoard(board, remained):
-	for boxX in range(BOARDWIDTH):
-		for boxY in range(BOARDHEIGHT):
-			left, top = leftTopCoordsOfbox(boxX, boxY)
-			if remained[boxX][boxY]:
-				color = board[boxX][boxY] 
+	if board.mode is not MODEZEN:
+		drawTime(board.time)
+	for event in pygame.event.get():
+		if IsTerminateAction(event):
+			terminate()
+		if event.type == MOUSEBUTTONUP:
+			mouseX, mouseY = event.pos
+			X, Y = board.getCoordAtPixel(mouseX, mouseY)
+			if (X, Y) != (None, None):
+				board.ClickOnBox(X,Y)
 			else:
-				color = BACKGROUNDCOLOR
-			pygame.draw.rect(DISPLAYSURF,color,(left,top,BOXSIZE,BOXSIZE))
-	for boxX in range(1,BOARDWIDTH):
-		left, top = leftTopCoordsOfbox(boxX, boxY)
-		pygame.draw.line(DISPLAYSURF, LINECOLOR, (left-GAPSIZE/2,YMARGIN-GAPSIZE/2), (left-GAPSIZE/2,WINDOWHEIGHT-YMARGIN-GAPSIZE/2), LINEWIDTH)
-	for boxY in range(1,BOARDHEIGHT):
-		left, top = leftTopCoordsOfbox(boxX, boxY)
-		pygame.draw.line(DISPLAYSURF, LINECOLOR, (XMARGIN-GAPSIZE/2,top-GAPSIZE/2), (WINDOWWIDTH-XMARGIN-GAPSIZE/2,top-GAPSIZE/2), LINEWIDTH)
+				for option in GameOptions:
+					if option.rect.collidepoint(event.pos):
+						option.action(board)
+	if board.mode is not MODEZEN:
+		board.decresetime(1)
+		if board.time <= 0:
+			RecordScore(board)
+			board.mode = MODEMENU
 
-def drawOptions():
-	DISPLAYSURF.blit(RESTART_SURF, RESTART_RECT)
-	DISPLAYSURF.blit(MENU_SURF, MENU_RECT)
 
-def drawMenu():
-	DISPLAYSURF.blit(TIME_SURF, TIME_RECT)
-	DISPLAYSURF.blit(ZEN_SURF, ZEN_RECT)
+def MenuInterface(board):
+	global MenuOptions
+	drawMenu(board)
+	for event in pygame.event.get():
+		if IsTerminateAction(event):
+			terminate()
+		if event.type == MOUSEBUTTONUP:
+			for option in MenuOptions:
+				if option.rect.collidepoint(event.pos):
+					option.action(board)
 
-def drawTime(time):
-	pygame.draw.rect(DISPLAYSURF,TIMECOLOR,(50,15,time/2,20))
+def RankInterface(board):
+	global RankOptions
+	drawRank()
+	for event in pygame.event.get():
+		if IsTerminateAction(event):
+			terminate()
+		if event.type == MOUSEBUTTONUP:
+			for option in RankOptions:
+				if option.rect.collidepoint(event.pos):
+					option.action(board)
 
-def drawScore(score):
-	SCORE_SURF, SCORE_RECT = makeText('score = '+str(score),TEXTCOLOR,BACKGROUNDCOLOR,30,WINDOWHEIGHT-30,BASICSIZE)
-	DISPLAYSURF.blit(SCORE_SURF, SCORE_RECT)
+def CreateAllOptions():
+	global MenuOptions, RankOptions, GameOptions
+	MenuOptions = []
+	for i in range(len(GAMEMODES)):
+		name = GAMEMODES[i]
+		game_SURF, game_RECT = makeText(name,TEXTCOLOR,BGCOLOR,WINDOWWIDTH/2-80,WINDOWHEIGHT/2-210+70*i,MENUSIZE)
+		gameoption = Option(game_SURF,game_RECT,MENUTOGAME,name)
+		MenuOptions.append(gameoption)
+	RANK_SURF, RANK_RECT = makeText('Rank',TEXTCOLOR,BGCOLOR,WINDOWWIDTH/2-80,WINDOWHEIGHT/2-210+70*len(GAMEMODES),MENUSIZE)
+	rankoption = Option(RANK_SURF,RANK_RECT,MENUTORANK)
+	MenuOptions.append(rankoption)
 
-def drawHighlightBox(boxX,boxY):
-	left, top = leftTopCoordsOfbox(boxX,boxY)
-	pygame.draw.rect(DISPLAYSURF, HIGHLIGHTCOLOR, (left-5,top-5,BOXSIZE+10,BOXSIZE+10),4)
+	RankOptions = []
+	RMENU_SURF, RMENU_RECT = makeText('Menu',TEXTCOLOR,BGCOLOR,WINDOWWIDTH-100,WINDOWHEIGHT-30,BASICSIZE)
+	rmenuoption = Option(RMENU_SURF,RMENU_RECT,RANKTOMENU)
+	RankOptions.append(rmenuoption)
+	DELETE_SURF, DELETE_RECT = makeText('Delete Data',TEXTCOLOR,BGCOLOR,WINDOWWIDTH-300,WINDOWHEIGHT-30,BASICSIZE)
+	deleteoption = Option(DELETE_SURF,DELETE_RECT,DELETEDATA)
+	RankOptions.append(deleteoption)
+
+	MENU_SURF, MENU_RECT = makeText('Menu',TEXTCOLOR,BGCOLOR,WINDOWWIDTH-180,WINDOWHEIGHT-30,BASICSIZE)
+	RESTART_SURF, RESTART_RECT = makeText('Restart',TEXTCOLOR,BGCOLOR,WINDOWWIDTH-100,WINDOWHEIGHT-30,BASICSIZE)
+
+	GameOptions = []
+	menuoption = Option(MENU_SURF,MENU_RECT,GAMETOMENU,MODEMENU)
+	restartoption = Option(RESTART_SURF,RESTART_RECT,GAMETOGAME)
+	GameOptions.append(menuoption)
+	GameOptions.append(restartoption)
+
+def randomcolor():
+	colorindex = random.randint(0,len(ALLCOLORS)-1)
+	return ALLCOLORS[colorindex]
 
 def makeText(text, color, bgcolor, top, left, size):
 	BASICFONT = pygame.font.Font('freesansbold.ttf', size)
 	textSurf = BASICFONT.render(text, True, color, bgcolor)
 	textRect = textSurf.get_rect()
-	textRect.topleft = (top, left)
+	textRect.topleft = (top,left)
 	return (textSurf, textRect)
 
-def drawHighestScore():
-	cur.execute("select * from rankingoftime order by score desc limit 1")
-	item = cur.fetchone()
-	if item is not None:
-		highest = item[0]
-	else:
-		highest = 0
-	HIGH_SURF, HIGH_RECT = makeText('highest score of TIME = '+str(highest), TEXTCOLOR, BACKGROUNDCOLOR,0,0,BASICSIZE)
-	DISPLAYSURF.blit(HIGH_SURF, HIGH_RECT)
-	cur.execute("select * from rankingofzen order by score desc limit 1")
-	item = cur.fetchone()
-	if item is not None:
-		highest = item[0]
-	else:
-		highest = 0
-	HIGH_SURF, HIGH_RECT = makeText('highest score of ZEN = '+str(highest), TEXTCOLOR, BACKGROUNDCOLOR,0,30,BASICSIZE)
-	DISPLAYSURF.blit(HIGH_SURF, HIGH_RECT)
+def drawGame(board):
+	drawBoard(board)
+	drawLine(board)
+	drawGameOptions()
 
-def CheckForTerminate(event):
-	if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
-		pygame.quit()
-		sys.exit()
+def drawBoard(board):
+	for x in range(board.width):
+		for y in range(board.height):
+			box = board.board[x][y]
+			if box.visible:
+				pygame.draw.rect(DISPLAYSURF,box.color,box.rect)
 
-if __name__ == '__main__':
+def drawLine(board):
+	ystart = board.ymargin - GAPSIZE/2
+	yend = WINDOWHEIGHT - board.ymargin - GAPSIZE/2
+	for i in range(board.width+1):
+		x = board.xmargin + UNITSIZE * i - GAPSIZE/2
+		pygame.draw.line(DISPLAYSURF,LINECOLOR,(x,ystart),(x,yend),LINEWIDTH)
+	xstart = board.xmargin - GAPSIZE/2
+	xend = WINDOWWIDTH - board.xmargin - GAPSIZE/2
+	for j in range(board.height+1):
+		y = board.ymargin + UNITSIZE * j - GAPSIZE/2
+		pygame.draw.line(DISPLAYSURF,LINECOLOR,(xstart,y),(xend,y),LINEWIDTH)
+
+def drawGameOptions():
+	global GameOptions
+	for option in GameOptions:
+		DISPLAYSURF.blit(option.surf,option.rect)
+
+def drawMenuOptions():
+	global MenuOptions
+	for option in MenuOptions:
+		DISPLAYSURF.blit(option.surf,option.rect)
+
+
+def drawRankOptions():
+	global RankOptions
+	for option in RankOptions:
+		DISPLAYSURF.blit(option.surf,option.rect)
+
+def drawMenu(board):
+	drawMenuOptions()
+	drawScore(board.score)
+
+def drawScore(score):
+	SCORE_SURF, SCORE_RECT = makeText('score = '+str(score),TEXTCOLOR, BGCOLOR,30,WINDOWHEIGHT-30,BASICSIZE)
+	DISPLAYSURF.blit(SCORE_SURF,SCORE_RECT)
+
+def drawTime(time):
+	pygame.draw.rect(DISPLAYSURF,TIMECOLOR,(50,15,time/2,20))
+
+def drawStatus(board):
+	text = "time = "+str(board.time)+" score = "+str(board.score)+" mode = "+board.mode+" width = "+str(board.width)+" height = "+str(board.height)
+	STATUS_SURF, STATUS_RECT = makeText(text,TEXTCOLOR,BGCOLOR,0,0,BASICSIZE)
+	DISPLAYSURF.blit(STATUS_SURF,STATUS_RECT)
+
+def drawRank():
+	drawRankOptions()
+	global cur
+	for i in range(len(GAMEMODES)):
+		name = GAMEMODES[i]
+		if name[0:5] == 'Time ':
+			name = name[5:]
+		NAME_SURF, NAME_RECT = makeText(name,TEXTCOLOR,BGCOLOR,175+200*i,200,MENUSIZE-5)
+		DISPLAYSURF.blit(NAME_SURF,NAME_RECT)
+		cur.execute("select * from rank where mode='"+GAMEMODES[i]+"' order by score desc limit 5")
+		for j in [1,2,3,4,5]:
+			score = 0
+			item = cur.fetchone()
+			if item is not None:
+				score = item[0]
+			HIGH_SURF, HIGH_RECT = makeText(str(j)+":   "+str(score),TEXTCOLOR,BGCOLOR,175+200*i,200+50*j,MENUSIZE-5)
+			DISPLAYSURF.blit(HIGH_SURF,HIGH_RECT)
+
+
+def IsTerminateAction(event):
+	return event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE)
+
+def terminate():
+	pygame.quit()
+	sys.exit()
+
+def OpenDatabase():
+	global con, cur
+	con = sqlite3.connect('crossbox.db3')
+	cur = con.cursor()
+	cur.execute("select count(*) from sqlite_master where type='table' and name='rank'")
+	if cur.fetchone()[0] == 0:
+		cur.execute("create table rank(score,mode)")
+
+def RecordScore(MainBoard):
+	global con, cur
+	cur.execute("insert into rank values("+str(MainBoard.score)+",'"+MainBoard.mode+"')")
+	con.commit()
+
+def DeleteScore():
+	global con, cur
+	cur.execute("delete from rank where score>=0")
+	con.commit()
+
+if __name__ == "__main__":
 	main()
