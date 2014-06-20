@@ -20,7 +20,7 @@ How to Play:
 
   
   
-You get 1 point for each box.  
+You get 1 point for each matched box.  
 
 Penalty: Each incorrect click reduces your time.
 
@@ -36,6 +36,6 @@ There are two modes for playing.
 
  2. Zen mode.
 
-  Zen mode, you can click on any box without penalty.
+  Zen mode, you can click on any box without penalty and time limitation.
 
 lancerW
